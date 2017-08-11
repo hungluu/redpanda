@@ -1,0 +1,30 @@
+{
+  "name": "redpanda",
+  "version": "0.0.1-alpha",
+  "description": "A lightweight Javascript library for executing, mapping, chaining data with your API calls",
+  "main": "index.js",
+  "scripts": {
+    "test": "yarn test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hungluu2106/redpanda.git"
+  },
+  "keywords": [
+    "red",
+    "panda",
+    "redpanda",
+    "api",
+    "call",
+    "map",
+    "data",
+    "chain",
+    "mock"
+  ],
+  "author": "Hung Luu <hungluu.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hungluu2106/redpanda/issues"
+  },
+  "homepage": "https://github.com/hungluu2106/redpanda#readme"
+}
