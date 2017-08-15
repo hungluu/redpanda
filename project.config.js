@@ -1,6 +1,14 @@
 const NODE_ENV = process.env.NODE_ENV || 'development'
 
 module.exports = {
+  features: {
+    html: false,
+    css : false,
+    react: false,
+    chunkHashJs: false,
+    commonChunk: false,
+    normalizeSeparated: false
+  },
   /** Developing port */
   devPort: 4321,
   /** The environment to use when building the project */

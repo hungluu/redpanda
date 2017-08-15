@@ -1,42 +1,34 @@
+const project = require('../project.config')
+const hasFeature = (name, callback) => {
+  let featureEnabled = typeof project.features[name] !== 'undefined' && project.features[name];
+  if (featureEnabled && callback) {
+    callback();
+  }
+
+  return featureEnabled;
+}
 const path = require('path')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const project = require('../project.config')
-const fs = require('fs-extra')
-
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = (file) => inProject(project.srcDir, file)
-const inProjectFiles = (subPath) => fs.readdirSync(subPath ? inProject(project.srcDir, subPath) : inProject(project.srcDir))
-const exit = (hasError) => process.exit(hasError ? 1 : 0)
-const normalizeSlashes = (path) => path.replace(/\\/g, '/')
-const isExternal = (module) => typeof module.userRequest === 'string' && module.userRequest.match(/(bower_components|node_modules)/)
 
-// Prepare configs for multiple html files compilation
-//------------------------------------------------------
-let entryPoints = {},
-  htmlCompilers = []
-inProjectFiles().forEach(function(fileName) {
-  entryPoints[fileName] = []
-  entryPoints[fileName].push(inProjectSrc(path.join(fileName, '_bootstrap.js')))
-  htmlCompilers.push(new HtmlWebpackPlugin({
-    inject: 'body',
-    chunks: [fileName],
-    filename: fileName + '/index.html',
-    template: inProjectSrc(fileName + '/_view.html')
-  }))
-})
+// Conditional dependencies
+const ExtractTextPlugin = hasFeature('html') || hasFeature('css') ? require('extract-text-webpack-plugin') : null
 
 const __DEV__ = project.env === 'development'
 const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
 
 const config = {
-  entry: entryPoints,
+  entry: {
+    main: [
+      inProjectSrc(project.main),
+    ],
+  },
   devtool: project.sourcemaps ? 'source-map' : false,
   output: {
     path: inProject(project.outDir),
-    filename: __DEV__ ? '[name]/[name].js' : '[name]/[name].[chunkhash].js',
+    filename: __DEV__ || !hasFeature('chunkHashJs') ? '[name].js' : '[name].[chunkhash].js',
     publicPath: project.publicPath,
   },
   resolve: {
@@ -50,40 +42,20 @@ const config = {
   module: {
     rules: [],
   },
-  plugins: htmlCompilers.concat(
+  plugins: [
     new webpack.DefinePlugin(Object.assign({
-      'process.env': {
-        NODE_ENV: JSON.stringify(project.env)
-      },
+      'process.env': { NODE_ENV: JSON.stringify(project.env) },
       __DEV__,
       __TEST__,
       __PROD__,
     }, project.globals))
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendors',
-    //   minChunks: (module) => isExternal(module)
-    // })
-  )
+  ],
 }
 
-// config.resolveLoader = {
-//   alias: {
-//     "vendor-loader": inProject('vendorLoader.js')
-//   }
-// }
-
-// HTML
-// ------------------------------------
-config.module.rules.push({
-  test: /\.(ejs|html)$/,
-  exclude: /node_modules/,
-  // use: [
-  use: [{
-    loader: 'html-loader',
-    options: {
-      interpolate: true
-    }
-  }]
+hasFeature('normalizeSeparated', () => {
+  config.entry.normalize = [
+    inProjectSrc('normalize'),
+  ]
 })
 
 // JavaScript
@@ -97,7 +69,8 @@ config.module.rules.push({
       cacheDirectory: true,
       plugins: [
         'babel-plugin-transform-class-properties',
-        'babel-plugin-syntax-dynamic-import', [
+        'babel-plugin-syntax-dynamic-import',
+        [
           'babel-plugin-transform-runtime',
           {
             helpers: true,
@@ -113,10 +86,11 @@ config.module.rules.push({
         ],
       ],
       presets: [
-        'babel-preset-react', ['babel-preset-env', {
+        // 'babel-preset-react',
+        ['babel-preset-env', {
           modules: false,
           targets: {
-            ie9: false,
+            ie9: true,
           },
           uglify: true,
         }],
@@ -127,70 +101,67 @@ config.module.rules.push({
 
 // Styles
 // ------------------------------------
-const extractStyles = new ExtractTextPlugin({
-  filename: '[name]/styles/[name].[contenthash].css',
-  allChunks: false,
-  disable: __DEV__,
-})
+hasFeature('css', () => {
+  const extractStyles = new ExtractTextPlugin({
+    filename: 'styles/[name].[contenthash].css',
+    allChunks: true,
+    disable: __DEV__,
+  })
 
-config.module.rules.push({
-  test: /\.(sass|scss|css)$/,
-  loader: extractStyles.extract({
-    fallback: 'style-loader',
-    use: [{
-        loader: 'css-loader',
-        options: {
-          sourceMap: project.sourcemaps,
-          minimize: {
-            autoprefixer: {
-              add: true,
-              remove: true,
-              browsers: ['last 2 versions'],
+  config.module.rules.push({
+    test: /\.(sass|scss)$/,
+    loader: extractStyles.extract({
+      fallback: 'style-loader',
+      use: [
+        {
+          loader: 'css-loader',
+          options: {
+            sourceMap: project.sourcemaps,
+            minimize: {
+              autoprefixer: {
+                add: true,
+                remove: true,
+                browsers: ['last 2 versions'],
+              },
+              discardComments: {
+                removeAll : true,
+              },
+              discardUnused: false,
+              mergeIdents: false,
+              reduceIdents: false,
+              safe: true,
+              sourcemap: project.sourcemaps,
             },
-            discardComments: {
-              removeAll: true,
-            },
-            discardUnused: false,
-            mergeIdents: false,
-            reduceIdents: false,
-            safe: true,
-            sourcemap: project.sourcemaps,
           },
         },
-      },
-      {
-        loader: 'sass-loader',
-        options: {
-          outputStyle: 'expanded',
-          sourceMap: project.sourcemaps,
-          includePaths: [
-            inProjectSrc('styles'),
-          ],
-        },
-      }
-    ],
+        {
+          loader: 'sass-loader',
+          options: {
+            sourceMap: project.sourcemaps,
+            includePaths: [
+              inProjectSrc('styles'),
+            ],
+          },
+        }
+      ],
+    })
   })
-})
-config.plugins.push(extractStyles)
-
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-config.plugins.push(new CopyWebpackPlugin(project.copy))
+  config.plugins.push(extractStyles)
+});
 
 // Images
 // ------------------------------------
 config.module.rules.push({
-  test: /\.(png|jpg|gif)$/,
-  loader: 'file-loader',
-  options: {
-    limit: 8192,
-    name: (srcPath) => normalizeSlashes(srcPath.split('src\\')[1])
-  }
+  test    : /\.(png|jpg|gif)$/,
+  loader  : 'url-loader',
+  options : {
+    limit : 8192,
+  },
 })
 
 // Fonts
 // ------------------------------------
-;
-[
+;[
   ['woff', 'application/font-woff'],
   ['woff2', 'application/font-woff2'],
   ['otf', 'font/opentype'],
@@ -202,11 +173,11 @@ config.module.rules.push({
   const mimetype = font[1]
 
   config.module.rules.push({
-    test: new RegExp(`\\.${extension}$`),
-    loader: 'url-loader',
-    options: {
-      name: 'fonts/[name].[ext]',
-      limit: 10000,
+    test    : new RegExp(`\\.${extension}$`),
+    loader  : 'url-loader',
+    options : {
+      name  : 'fonts/[name].[ext]',
+      limit : 10000,
       mimetype,
     },
   })
@@ -214,32 +185,23 @@ config.module.rules.push({
 
 // HTML Template
 // ------------------------------------
-// config.plugins.push(new HtmlWebpackPlugin({
-//   template: inProjectSrc('index.html'),
-//   inject: true,
-//   minify: {
-//     collapseWhitespace: true,
-//   },
-// }))
+hasFeature('html', () => {
+  config.plugins.push(new HtmlWebpackPlugin({
+    template: inProjectSrc('index.html'),
+    inject: true,
+    minify: {
+      collapseWhitespace: true,
+    },
+  }))
+});
 
 // Development Tools
 // ------------------------------------
 if (__DEV__) {
-  // config.entry.main.push(
-  //   `webpack-hot-middleware/client.js?path=${config.output.publicPath}__webpack_hmr`
-  // )
-  var hmrPublicPath = '/'; // config.output.publicPath;
-  for (var key in config.entry) {
-    if (config.entry.hasOwnProperty(key)) {
-      config.entry[key].push(
-        `webpack-hot-middleware/client.js?path=${hmrPublicPath}__webpack_hmr`
-      )
-    }
-  }
+  config.entry.main.push(
+    `webpack-hot-middleware/client.js?path=${config.output.publicPath}__webpack_hmr`
+  )
   config.plugins.push(
-    new webpack.ProvidePlugin({
-      jQuery: "jquery"
-    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin()
   )
@@ -247,24 +209,22 @@ if (__DEV__) {
 
 // Bundle Splitting
 // ------------------------------------
-// if (!__TEST__) {
-//   const bundles = ['normalize', 'manifest']
+if (!__TEST__ && hasFeature('commonChunk')) {
+  const bundles = ['normalize', 'manifest']
 
-//   if (project.vendors && project.vendors.length) {
-//     bundles.unshift('vendor')
-//     config.entry.vendor = project.vendors
-//   }
-//   config.plugins.push(new webpack.optimize.CommonsChunkPlugin({
-//     names: bundles
-//   }))
-// }
+  if (project.vendors && project.vendors.length) {
+    bundles.unshift('vendor')
+    config.entry.vendor = project.vendors
+  }
+  config.plugins.push(new webpack.optimize.CommonsChunkPlugin({ names: bundles }))
+}
 
 // Production Optimizations
 // ------------------------------------
 if (__PROD__) {
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
-      // minimize: true,
+      minimize: true,
       debug: false,
     }),
     new webpack.optimize.UglifyJsPlugin({
