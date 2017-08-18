@@ -1,8 +1,12 @@
 import RedPanda from 'RedPanda'
 
 describe('RedPanda', () => {
-  it('should exists', () => {
-    let panda = new RedPanda()
-    expect(panda).not.undefined()
+  let api
+
+  before(() => {
+    api = new RedPanda()
+  })
+
+  it('should have a list of named entities', () => {
   })
 })
