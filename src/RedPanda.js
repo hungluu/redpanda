@@ -1,6 +1,6 @@
-import Registry from 'Registry'
 const fetch = require('isomorphic-fetch')
 const kindOf = require('kind-of')
+const Registry = require('./Registry')
 
 /**
  * The RedPanda Api Center
@@ -8,7 +8,14 @@ const kindOf = require('kind-of')
  */
 class RedPanda {
   constructor () {
-    this.registry = new Registry()
+    // private
+    let reg = new Registry()
+
+    this.get = (key) => reg.get(key)
+    this.set = (key, value) => {
+      reg.set(key, value)
+      return this
+    }
   };
 
   /**
@@ -34,41 +41,13 @@ class RedPanda {
    * @memberof RedPanda
    * @return {Promise}
    */
-  send (requestOptions, isChained) {
-    let promiseStack = []
-
-    if (kindOf(requestOptions) === 'array') {
-      for (var index = 0, length = requestOptions.length, options; index < length; index++) {
-        options = this.registry.get(requestOptions[index])
-        promiseStack.push(fetch(options.url, options))
-      }
-    }
-    else {
-      promiseStack.push(fetch(this.registry.get(requestOptions)))
-    }
+  send (requestOptions) {
+    let promiseStack = this.get(requestOptions).map((option) => fetch(option.url, option))
 
     return Promise.all(promiseStack)
-  };
-
-  /**
-   * Name a request with options
-   *
-   * @param {string} requestName
-   * @param {object} requestOptions
-   * @memberof RedPanda
-   */
-  /**
-   * Name a request group
-   *
-   * @param {string} requestName
-   * @param {array}  requestOptionStack
-   * @memberof RedPanda
-   */
-  define (requestName, requestOptions) {
-    this.registry.set(requestName, requestOptions);
   };
 
   listen (requestOptions, callbacks) {};
 };
 
-export default RedPanda
+module.exports = RedPanda

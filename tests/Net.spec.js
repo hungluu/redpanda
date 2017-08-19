@@ -1,4 +1,4 @@
-import Registry from 'Registry'
+import Queue from 'Registry'
 
 describe('Registry', () => {
   let reg
