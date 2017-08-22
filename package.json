@@ -11,7 +11,8 @@
     "test": "cross-env NODE_ENV=test karma start build/karma.config",
     "test:watch": "npm test -- --watch",
     "lint": "eslint .",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "attempt": "babel-node --presets es2015 index.js"
   },
   "repository": {
     "type": "git",
@@ -73,6 +74,7 @@
     "sinon-chai": "^2.10.0",
     "webpack": "^3.5.4",
     "webpack-dev-middleware": "^1.12.0",
-    "webpack-hot-middleware": "^2.18.2"
+    "webpack-hot-middleware": "^2.18.2",
+    "whatwg-fetch": "^2.0.3"
   }
 }

@@ -1,5 +1,4 @@
-// import Queue from 'Queue'
-let kindOf = require('kind-of')
+import kindOf from 'kind-of'
 
 class Registry {
   constructor() {
@@ -10,11 +9,11 @@ class Registry {
   set(key, value) {
     // valueKind
     if (kindOf(value) !== 'array' && kindOf(value) !== 'object') {
-      throw new Error('[RedPanda Net] Only array and object value is accepted')
+      throw new Error('[RedPanda Registry] Only array and object value is accepted')
     }
 
     if (kindOf(key) !== 'string') {
-      throw new Error('[RedPanda Net] Only array and object value is accepted')
+      throw new Error('[RedPanda Registry] Only array and object value is accepted')
     }
 
     this.items[key] = value
@@ -23,33 +22,39 @@ class Registry {
   // string --> array[object]
   // object --> array[object]
   // array --> array[obj1, obj2, obj3] (inherited)
-  get(key) {
-    let keyKind = kindOf(key),
-      valueKind = kindOf(this.items[key])
+  get(key, rawObject) {
+    let keyKind = kindOf(key)
 
     if (keyKind === 'object') {
-      return this.applyInherits(key)
+      return rawObject ? this.applyInherits(key) : [this.applyInherits(key)]
     }
-    // TODO: add 'Queue' here and Queue need a `.map` method to work as array do
     else if (keyKind === 'array') {
-      return key.map(item => this.applyInherits(this.getRaw(item)))
+      return key.map(item => this.get(item, true))
     }
     else if (keyKind !== 'string') {
       throw Error('get')
     }
-    else if (valueKind === 'array') {
-      return this.items[key].map(item => this.applyInherits(this.getRaw(item)))
+    else if (kindOf(this.items[key]) === 'array') {
+      return this.items[key].map(item => {
+        return this.get(item, true)
+      }) // this.applyInherits(this.getRaw(item)))
     }
     else {
       // valueKind === object
-      return [this.applyInherits(this.items[key])]
+      return rawObject ? this.applyInherits(this.items[key]) : [this.applyInherits(this.items[key])]
     }
   };
 
   // inherits
   applyInherits(item) {
-    if (kindOf(item) !== 'object') {
-      throw new Error('...');
+    let itemKind = kindOf(item)
+
+    if (itemKind !== 'object') {
+      if (itemKind === 'array') {
+        // throw new Error('[RedPanda Registry] only one level of stack is allowed');
+      }
+      console.log(item)
+      throw new Error('[RedPanda Registry] item must be object to inherit');
     }
 
     return kindOf(item.inherits) === 'array'
@@ -77,11 +82,12 @@ class Registry {
     let keyKind = kindOf(key),
       valueKind = kindOf(this.items[key])
 
-    if(keyKind === 'object') {
+    if (keyKind === 'object') {
       // return the object-self
       return key;
     }
     else if (keyKind !== 'string') {
+      console.log(key)
       throw Error('getRaw')
     }
     else if (valueKind === 'array') {
@@ -94,5 +100,4 @@ class Registry {
   };
 }
 
-// export default Net
-module.exports = Registry
+export default Registry

@@ -1,6 +1,10 @@
 const fetch = require('isomorphic-fetch')
-const kindOf = require('kind-of')
-const Registry = require('./Registry')
+import kindOf from 'kind-of'
+import Registry from './Registry'
+import PromiseStack from './PromiseStack'
+
+import RequestSequence from './RequestSequence'
+import RequestStack from './RequestStack'
 
 /**
  * The RedPanda Api Center
@@ -11,7 +15,21 @@ class RedPanda {
     // private
     let reg = new Registry()
 
+    /**
+     * Get request options
+     *
+     * @param {string|Array|object} key
+     * @return {Array}
+     */
     this.get = (key) => reg.get(key)
+
+    /**
+     * Name a request by options or an array of request options
+     *
+     * @param {string} key option name
+     * @param {string|Array|object} value option value
+     * @return {Array}
+     */
     this.set = (key, value) => {
       reg.set(key, value)
       return this
@@ -22,32 +40,47 @@ class RedPanda {
    * Send a request with options defined by name
    *
    * @param {string} requestName name of request that defined
-   * @memberof RedPanda
-   * @return {Promise}
+   * @return {PromiseStack}
    */
   /**
    * Send a request with options
    *
    * @param {object} requestOptions options of request, method is 'GET' by default
-   * @memberof RedPanda
-   * @return {Promise}
+   * @return {PromiseStack}
    */
   /**
-   * Send a bulk of request one by one
+   * Send a bulk of requests in parallels
    *
-   * @param {mixed} requestList a list of request by options or name
-   * @param {boolean} isChained If true, next request in queue will only be called
-   *  when a response has been received from previous one
-   * @memberof RedPanda
-   * @return {Promise}
+   * @param {array} requestOptionArray an array of request options or request name
+   * @return {PromiseStack}
    */
   send (requestOptions) {
-    let promiseStack = this.get(requestOptions).map((option) => fetch(option.url, option))
-
-    return Promise.all(promiseStack)
+    let promises = this.get(requestOptions).map((option) => {
+      if (kindOf(option) === 'object') {
+        console.log(option)
+        return fetch(option.url, option)
+      }
+      else {
+        return this.send(option)
+      }
+    })
+    return new PromiseStack(promises)
   };
 
-  listen (requestOptions, callbacks) {};
+  /**
+   * Send a bulk of requests sequentially
+   *
+   * @param {array} requestOptionArray an array of request options or request name
+   * @return {PromiseStack}
+   */
+  sendSequence (requestOptions) {
+    let queue = new RequestSequence(this.get(requestOptions), this)
+    return queue.start()
+  };
+
+  sequence(requestOptions) {
+    return new RequestSequence(requestOptions)
+  };
 };
 
-module.exports = RedPanda
+export default RedPanda

@@ -1,4 +1,8 @@
 import RedPanda from './RedPanda'
 
 // Exports RedPanda into window environment
-window.RedPanda = RedPanda
+// global.window = global
+// global.RedPanda = RedPanda
+
+console.log(RedPanda)
+module.exports = RedPanda

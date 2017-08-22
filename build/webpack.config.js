@@ -20,6 +20,7 @@ const __TEST__ = project.env === 'test'
 const __PROD__ = project.env === 'production'
 
 const config = {
+  target: 'node',
   entry: {
     main: [
       inProjectSrc(project.main),
