@@ -57,7 +57,7 @@ class RedPanda {
   send (requestOptions) {
     let promises = this.get(requestOptions).map((option) => {
       if (kindOf(option) === 'object') {
-        console.log(option)
+        // console.log(option)
         return fetch(option.url, option)
       }
       else {

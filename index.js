@@ -19,8 +19,8 @@ net.set('all', ['b', 'c', 'e', 'f', 'd'])
 // console.log(util.inspect(net.get('d'), {showHidden: false, depth: null}))
 
 net.sendSequence('all')
-  .then(data => data[0].json())
-  .then(json => console.log('Sequence ' + json.id))
+  .then(data => typeof data.length !== 'undefined' ? Promise.all(data.map((item) => item.json())) : data.json())
+  .then(json => typeof json.length !== 'undefined' ? json.forEach(item => console.log('Sequence ' + item.id)) : console.log('Sequence ' + json.id))
   .catch(err => console.log(err))
 
 net.send('all')
