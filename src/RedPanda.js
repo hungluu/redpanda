@@ -54,14 +54,13 @@ class RedPanda {
    * @param {array} requestOptionArray an array of request options or request name
    * @return {PromiseStack}
    */
-  send (requestOptions) {
+  send (requestOptions, checked) {
     let promises = this.get(requestOptions).map((option) => {
       if (kindOf(option) === 'object') {
-        // console.log(option)
         return fetch(option.url, option)
       }
       else {
-        return this.send(option)
+        return this.send(option, true).all()
       }
     })
     return new PromiseStack(promises)

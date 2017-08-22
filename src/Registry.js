@@ -87,7 +87,6 @@ class Registry {
       return key;
     }
     else if (keyKind !== 'string') {
-      console.log(key)
       throw Error('getRaw')
     }
     else if (valueKind === 'array') {

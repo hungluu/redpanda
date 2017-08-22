@@ -29,7 +29,12 @@ class RequestSequence extends Iterator {
         .all()
         .then((data) => {
           this.nextRequest()
-          resolve(data)
+          if (data.length === 1) {
+            resolve(data[0])
+          }
+          else {
+            resolve(data)
+          }
         })
         .catch((err) => reject(err))
     }
