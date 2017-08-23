@@ -33,6 +33,12 @@ class RedPanda {
       return this
     }
 
+    /**
+     * Flatten multi-level request stacks passed in
+     *
+     * @param {mixed} options
+     * @return {Array}
+     */
     this.flatten = (options) => reg.flatten(options)
   };
 
@@ -55,19 +61,13 @@ class RedPanda {
    * @return {PromiseCollection}
    */
   send (requestOptions) {
-    return new PromiseCollection(this.flatten(requestOptions).map((option) => option instanceof RequestSequence ? option.start() : fetch(option.url, option)))
-  };
+    let promises = this.flatten(requestOptions).map((option) => option instanceof RequestSequence
+      ? (new RequestSequence(option.items, this)).start()
+      : fetch(option.url, option)
+    )
 
-  // /**
-  //  * Send a bulk of requests sequentially
-  //  *
-  //  * @param {array} requestOptionArray an array of request options or request name
-  //  * @return {PromiseCollection}
-  //  */
-  // sendSequence (requestOptions) {
-  //   let queue = new RequestSequence(requestOptions, this)
-  //   return queue.start()
-  // };
+    return new PromiseCollection(promises)
+  };
 
   sequence(requestOptions) {
     return new RequestSequence(requestOptions, this)

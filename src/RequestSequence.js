@@ -60,6 +60,8 @@ class RequestSequence {// extends Iterator {
   };
 
   start() {
+    this.resolveStack = [];
+    this.rejectStack  = [];
     this.promises = this.createPromises();
     this.rewind()
     this.nextRequest()

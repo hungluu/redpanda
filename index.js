@@ -55,13 +55,11 @@ net.set('all_p', ['b', 'c', 'e', 'f', 'd_p',
 //   .catch(err => console.log(err))
 
 var queueStack = net.send('all_p')
-console.log(queueStack)
-queueStack.all().then(function (data) {
-  return net.waitAll(data.map(function (item) {
-    return item.json();
-  }))
-}).then(function (allJson) {
-  console.log(allJson)
-}).catch(function (errorMessage) {
-  console.log(errorMessage)
-});
+// console.log(queueStack)
+queueStack
+  .then(data => data.json())
+  .then(json => console.log(json.id))
+  // .catch(err => console.log(err))
+  .all()
+  .then(() => console.log(queueStack))
+  .catch(errorMessage => console.log(errorMessage));
