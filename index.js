@@ -1,7 +1,7 @@
-const util = require('util')
+// const util = require('util')
 import RedPanda from './src/RedPanda'
-import PromiseCollection from './src/PromiseCollection'
-const kindOf = require('kind-of')
+// import PromiseCollection from './src/PromiseCollection'
+// const kindOf = require('kind-of')
 
 let net = new RedPanda()
 net.set('a', {method: 'GET'})
@@ -46,10 +46,10 @@ net.set('all_p', ['b', 'c', 'e', 'f', 'd_p',
 
 net.send('all_p').then(data => data.json()).then(json => console.log(json.id))
 
-// net.send('all_p').all().then(function (data) {
-//   return net.waitAll(data.map(function (item) {
-//     return i.json();
-//   }))
-// }).then(function (allJson) {
-//   console.log(allJson)
-// });
+net.send('all_p').all().then(function (data) {
+  return net.waitAll(data.map(function (item) {
+    return i.json();
+  }))
+}).then(function (allJson) {
+  console.log(allJson)
+});

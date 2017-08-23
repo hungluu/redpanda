@@ -1,5 +1,3 @@
+const app = self = window ? window : global
 import RedPanda from './RedPanda'
-if (typeof window !== undefined) {
-  window.RedPanda = RedPanda
-}
-module.exports = RedPanda
+module.exports = app.RedPanda = RedPanda

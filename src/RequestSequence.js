@@ -1,8 +1,9 @@
-import Iterator from './Iterator'
+// import Iterator from './Iterator'
+import PromiseCollection from './PromiseCollection'
 
-class RequestSequence extends Iterator {
+class RequestSequence {// extends Iterator {
   constructor (requestOptions, net) {
-    super()
+    // super()
     this.net = net
     this.resolveStack = []
     this.rejectStack  = []
@@ -32,6 +33,37 @@ class RequestSequence extends Iterator {
         })
         .catch((err) => reject(err))
     }
+  };
+
+  next() {
+    this.key++
+  };
+
+  stack() {
+    return new PromiseCollection(this.promises)
+  };
+
+  rewind() {
+    this.key = -1
+  };
+
+  current() {
+    return this.items[this.key]
+  };
+
+  count() {
+    return this.items.length
+  };
+
+  valid() {
+    return this.key >= 0 && this.key < this.count()
+  };
+
+  start() {
+    this.promises = this.createPromises();
+    this.rewind()
+    this.nextRequest()
+    return this.stack()
   };
 }
 
