@@ -3,7 +3,7 @@ import RedPanda from './src/RedPanda'
 // import PromiseCollection from './src/PromiseCollection'
 // const kindOf = require('kind-of')
 
-let net = new RedPanda()
+var net = new RedPanda()
 net.set('a', {method: 'GET'})
 net.set('b', {url: 'https://jsonplaceholder.typicode.com/posts/1', inherits: ['a']})
 net.set('c', {url: 'https://jsonplaceholder.typicode.com/posts/2'})
@@ -44,12 +44,24 @@ net.set('all_p', ['b', 'c', 'e', 'f', 'd_p',
 ])
 
 
-net.send('all_p').then(data => data.json()).then(json => console.log(json.id))
+// net.send('all_p')
+//   .then(data => data.json())
+//   .then(json => console.log(json.id))
+//   .catch(err => console.log(err))
 
-net.send('all_p').all().then(function (data) {
+// net.send('all_p')
+//   .then(data => data.json())
+//   .then(json => console.log(json.id))
+//   .catch(err => console.log(err))
+
+var queueStack = net.send('all_p')
+console.log(queueStack)
+queueStack.all().then(function (data) {
   return net.waitAll(data.map(function (item) {
-    return i.json();
+    return item.json();
   }))
 }).then(function (allJson) {
   console.log(allJson)
+}).catch(function (errorMessage) {
+  console.log(errorMessage)
 });
