@@ -1,4 +1,4 @@
-import PromiseStack from './PromiseStack'
+import PromiseCollection from './PromiseCollection'
 
 class Iterator {
   constructor(items) {
@@ -11,8 +11,8 @@ class Iterator {
     this.key++
   }
 
-  getStack() {
-    return new PromiseStack(this.promises)
+  stack() {
+    return new PromiseCollection(this.promises)
   }
 
   rewind() {
@@ -35,7 +35,7 @@ class Iterator {
     this.promises = this.createPromises();
     this.rewind()
     this.nextRequest()
-    return this.getStack()
+    return this.stack()
   }
 }
 

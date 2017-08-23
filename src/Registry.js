@@ -1,4 +1,6 @@
-import kindOf from 'kind-of'
+const kindOf = require('kind-of')
+
+import RequestSequence from './RequestSequence'
 
 class Registry {
   constructor() {
@@ -96,6 +98,31 @@ class Registry {
       // valueKind === object
       return this.items[key]
     }
+  };
+
+  // Convert multi-level request option stack
+  // into flat array of request option objects
+  flatten (requestOptions, _flatList) {
+    let flatList = _flatList ? _flatList : [] // new PromiseCollection([])
+
+    this.get(requestOptions).forEach((option) => {
+      if (option instanceof RequestSequence) {
+        return flatList.push(option)
+      }
+
+      switch(kindOf(option)) {
+        case 'array':
+          this.flatten(option, flatList)
+          break
+        case 'object':
+          flatList.push(option)
+          break
+        default:
+          throw Error('Unsupported type')
+      }
+    })
+
+    return flatList
   };
 }
 

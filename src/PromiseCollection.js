@@ -1,4 +1,4 @@
-class PromiseStack {
+class PromiseCollection {
   constructor (promises) {
     this.items = promises
   };
@@ -11,9 +11,17 @@ class PromiseStack {
       return this.items[index]
     }
     else {
-      return Promise.reject('[RedPanda PromiseStack] No promise found for index ' + index)
+      return Promise.reject('[RedPanda PromiseCollection] No promise found for index ' + index)
     }
   };
+
+  push (item) {
+    this.items.push(item)
+  }
+
+  merge (list) {
+    this.items.merge(list)
+  }
 
   count () {
     return this.items.length
@@ -42,4 +50,4 @@ class PromiseStack {
   };
 }
 
-export default PromiseStack
+export default PromiseCollection

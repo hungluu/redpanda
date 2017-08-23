@@ -6,7 +6,7 @@ class RequestSequence extends Iterator {
     this.net = net
     this.resolveStack = []
     this.rejectStack  = []
-    this.items = requestOptions
+    this.items = this.net.flatten(requestOptions)
     this.promises = []
   };
 
@@ -26,15 +26,9 @@ class RequestSequence extends Iterator {
         currentOption = this.current()
 
       this.net.send(currentOption)
-        .all()
         .then((data) => {
           this.nextRequest()
-          if (data.length === 1) {
-            resolve(data[0])
-          }
-          else {
-            resolve(data)
-          }
+          resolve(data)
         })
         .catch((err) => reject(err))
     }

@@ -1,6 +1,6 @@
 const util = require('util')
-const RedPanda = require('./src/main')
-import PromiseStack from './src/PromiseStack'
+import RedPanda from './src/RedPanda'
+import PromiseCollection from './src/PromiseCollection'
 const kindOf = require('kind-of')
 
 let net = new RedPanda()
@@ -26,54 +26,30 @@ net.set('all', ['b', 'c', 'e', 'f', 'd'])
 net.set('d_p', [
   {url: 'https://jsonplaceholder.typicode.com/posts/5'},
   {url: 'https://jsonplaceholder.typicode.com/posts/6'},
-  {url: 'https://jsonplaceholder.typicode.com/posts/7'},
-  {url: 'https://jsonplaceholder.typicode.com/posts/8'},
+  [
+    {url: 'https://jsonplaceholder.typicode.com/posts/7'},
+    {url: 'https://jsonplaceholder.typicode.com/posts/8'},
+  ],
   'g'
 ])
-net.set('all_p', ['b', 'c', 'e', 'f', 'd_p'])
-// net.set('e', {url: 'https://'})
+net.set('all_p', ['b', 'c', 'e', 'f', 'd_p',
+  net.sequence([
+    [
+      {url: 'https://jsonplaceholder.typicode.com/posts/10'},
+      {url: 'https://jsonplaceholder.typicode.com/posts/11'}
+    ],
+    {url: 'https://jsonplaceholder.typicode.com/posts/12'},
+    {url: 'https://jsonplaceholder.typicode.com/posts/13'}
+  ])
+])
 
-// console.log(util.inspect(net.get('b'), {showHidden: false, depth: null}))
 
-// let net2 = new RedPanda()
-// net2.set('b', {b : 5})
-// console.log(util.inspect(net2.get('b'), {showHidden: false, depth: null}))
-// console.log(util.inspect(net.get('d'), {showHidden: false, depth: null}))
-const flattenPromises = (data, walkFn, collector) => {
-  let dataKind = kindOf(data)
-  if (dataKind === 'object') {
-    let itemPromise = walkFn(data)
+net.send('all_p').then(data => data.json()).then(json => console.log(json.id))
 
-    if (collector) {
-      collector.promises.push(itemPromise)
-    }
-    else {
-      return Promise.all([itemPromise])
-    }
-  }
-  else if (dataKind === 'array') {
-    if (typeof collector === 'undefined') {
-      var collector = {
-        promises: []
-      }
-    }
-
-    data.forEach((item) => {
-      flattenPromises(item, walkFn, collector)
-    });
-
-    return Promise.all(collector.promises);
-  }
-  else {
-    return Promise.reject('Not supported')
-  }
-}
-// net.sendSequence('all')
-//   .then(data => flattenPromises(data, (i) => i.json()))
-//   .then(json => json.forEach(i => console.log(i)))
-//   .catch(err => console.log(err))
-
-net.send('all')
-  .then(data => flattenPromises(data, (i) => i.json()))
-  .then(json => json.forEach(i => console.log('Parallel ' + i.id)))
-  .catch(err => console.log(err))
+// net.send('all_p').all().then(function (data) {
+//   return net.waitAll(data.map(function (item) {
+//     return i.json();
+//   }))
+// }).then(function (allJson) {
+//   console.log(allJson)
+// });

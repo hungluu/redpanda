@@ -1,8 +1,5 @@
 import RedPanda from './RedPanda'
-
-// Exports RedPanda into window environment
-// global.window = global
-// global.RedPanda = RedPanda
-
-console.log(RedPanda)
+if (typeof window !== undefined) {
+  window.RedPanda = RedPanda
+}
 module.exports = RedPanda

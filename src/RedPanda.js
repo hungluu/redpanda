@@ -1,10 +1,8 @@
-const fetch = require('isomorphic-fetch')
-import kindOf from 'kind-of'
-import Registry from './Registry'
-import PromiseStack from './PromiseStack'
+require('isomorphic-fetch')
 
+import Registry from './Registry'
+import PromiseCollection from './PromiseCollection'
 import RequestSequence from './RequestSequence'
-import RequestStack from './RequestStack'
 
 /**
  * The RedPanda Api Center
@@ -34,56 +32,57 @@ class RedPanda {
       reg.set(key, value)
       return this
     }
+
+    this.flatten = (options) => reg.flatten(options)
   };
 
   /**
    * Send a request with options defined by name
    *
    * @param {string} requestName name of request that defined
-   * @return {PromiseStack}
+   * @return {PromiseCollection}
    */
   /**
    * Send a request with options
    *
    * @param {object} requestOptions options of request, method is 'GET' by default
-   * @return {PromiseStack}
+   * @return {PromiseCollection}
    */
   /**
    * Send a bulk of requests in parallels
    *
    * @param {array} requestOptionArray an array of request options or request name
-   * @return {PromiseStack}
+   * @return {PromiseCollection}
    */
   send (requestOptions) {
-    let promises = this.get(requestOptions).map((option) => {
-      if (option instanceof RequestSequence) {
-        return null
-      }
-
-      if (kindOf(option) === 'object') {
-        return fetch(option.url, option)
-      }
-      else{
-        console.log(option)
-        throw Error('[RedPanda] Queues can not contain same type ones.')
-      }
-    })
-    return new PromiseStack(promises)
+    return new PromiseCollection(this.flatten(requestOptions).map((option) => option instanceof RequestSequence ? option.start() : fetch(option.url, option)))
   };
 
-  /**
-   * Send a bulk of requests sequentially
-   *
-   * @param {array} requestOptionArray an array of request options or request name
-   * @return {PromiseStack}
-   */
-  sendSequence (requestOptions) {
-    let queue = new RequestSequence(this.get(requestOptions), this)
-    return queue.start()
-  };
+  // /**
+  //  * Send a bulk of requests sequentially
+  //  *
+  //  * @param {array} requestOptionArray an array of request options or request name
+  //  * @return {PromiseCollection}
+  //  */
+  // sendSequence (requestOptions) {
+  //   let queue = new RequestSequence(requestOptions, this)
+  //   return queue.start()
+  // };
 
   sequence(requestOptions) {
-    return new RequestSequence(requestOptions)
+    return new RequestSequence(requestOptions, this)
+  };
+
+  resolve (value) {
+    return Promise.resolve(value)
+  };
+
+  reject (error) {
+    return Promise.reject(error)
+  };
+
+  waitAll (promises) {
+    return Promise.all(promises)
   };
 };
 
