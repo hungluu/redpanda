@@ -54,13 +54,18 @@ class RedPanda {
    * @param {array} requestOptionArray an array of request options or request name
    * @return {PromiseStack}
    */
-  send (requestOptions, checked) {
+  send (requestOptions) {
     let promises = this.get(requestOptions).map((option) => {
+      if (option instanceof RequestSequence) {
+        return null
+      }
+
       if (kindOf(option) === 'object') {
         return fetch(option.url, option)
       }
-      else {
-        return this.send(option, true).all()
+      else{
+        console.log(option)
+        throw Error('[RedPanda] Queues can not contain same type ones.')
       }
     })
     return new PromiseStack(promises)

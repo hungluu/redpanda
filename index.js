@@ -23,6 +23,14 @@ net.set('e', {url: 'https://jsonplaceholder.typicode.com/posts/3'})
 net.set('f', {url: 'https://jsonplaceholder.typicode.com/posts/4'})
 net.set('g', {url: 'https://jsonplaceholder.typicode.com/posts/9', inherits: ['a', 'b']})
 net.set('all', ['b', 'c', 'e', 'f', 'd'])
+net.set('d_p', [
+  {url: 'https://jsonplaceholder.typicode.com/posts/5'},
+  {url: 'https://jsonplaceholder.typicode.com/posts/6'},
+  {url: 'https://jsonplaceholder.typicode.com/posts/7'},
+  {url: 'https://jsonplaceholder.typicode.com/posts/8'},
+  'g'
+])
+net.set('all_p', ['b', 'c', 'e', 'f', 'd_p'])
 // net.set('e', {url: 'https://'})
 
 // console.log(util.inspect(net.get('b'), {showHidden: false, depth: null}))
@@ -60,10 +68,10 @@ const flattenPromises = (data, walkFn, collector) => {
     return Promise.reject('Not supported')
   }
 }
-net.sendSequence('all')
-  .then(data => flattenPromises(data, (i) => i.json()))
-  .then(json => json.forEach(i => console.log('Sequence ' + i.id)))
-  .catch(err => console.log(err))
+// net.sendSequence('all')
+//   .then(data => flattenPromises(data, (i) => i.json()))
+//   .then(json => json.forEach(i => console.log(i)))
+//   .catch(err => console.log(err))
 
 net.send('all')
   .then(data => flattenPromises(data, (i) => i.json()))
