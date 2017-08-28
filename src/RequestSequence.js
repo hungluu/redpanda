@@ -2,12 +2,12 @@
 import PromiseCollection from './PromiseCollection'
 
 class RequestSequence {// extends Iterator {
-  constructor (requestOptions, net) {
+  constructor (flattenOptions, net) {
     // super()
     this.net = net
     this.resolveStack = []
     this.rejectStack  = []
-    this.items = this.net.flatten(requestOptions)
+    this.items = flattenOptions
     this.promises = []
   };
 

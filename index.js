@@ -58,8 +58,8 @@ var queueStack = net.send('all_p')
 // console.log(queueStack)
 queueStack
   .then(data => data.json())
-  .then(json => console.log(json.id))
+  .then(json => { console.log(json.id); return json.id })
   // .catch(err => console.log(err))
   .all()
-  .then(() => console.log(queueStack))
+  .then((data) => console.log(data))
   .catch(errorMessage => console.log(errorMessage));

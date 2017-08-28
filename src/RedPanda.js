@@ -69,18 +69,50 @@ class RedPanda {
     return new PromiseCollection(promises)
   };
 
+  /**
+   * Create a request sequence by request name
+   *
+   * @param {string} requestName name of request that defined
+   * @return {PromiseCollection}
+   */
+  /**
+   * Create a request sequence by request options
+   *
+   * @param {object} requestOptions options of request, method is 'GET' by default
+   * @return {PromiseCollection}
+   */
+  /**
+   * Create a request sequence bu a bulk of requests that is intended to process sequentialy
+   *
+   * @param {array} requestOptionArray an array of request options or request name
+   * @return {RequestSequence}
+   */
   sequence(requestOptions) {
-    return new RequestSequence(requestOptions, this)
+    return new RequestSequence(this.flatten(requestOptions), this)
   };
 
+  /**
+   * An ultility function to manually get a resolved promise
+   * @param {*} value
+   * @return {Promise}
+   */
   resolve (value) {
     return Promise.resolve(value)
   };
 
+  /**
+   * An ultility function to manually get a rejected promise
+   * @param {string} value
+   * @return {Promise}
+   */
   reject (error) {
     return Promise.reject(error)
   };
 
+  /**
+   * An ultility function to manually wait some promises
+   * @param {Promise[]} promises
+   */
   waitAll (promises) {
     return Promise.all(promises)
   };
