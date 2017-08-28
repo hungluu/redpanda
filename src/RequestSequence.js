@@ -28,8 +28,8 @@ class RequestSequence {// extends Iterator {
 
       this.net.send(currentOption)
         .then((data) => {
-          this.nextRequest()
           resolve(data)
+          this.nextRequest()
         })
         .catch((err) => reject(err))
     }

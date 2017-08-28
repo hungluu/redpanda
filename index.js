@@ -36,10 +36,14 @@ net.set('all_p', ['b', 'c', 'e', 'f', 'd_p',
   net.sequence([
     [
       {url: 'https://jsonplaceholder.typicode.com/posts/10'},
-      {url: 'https://jsonplaceholder.typicode.com/posts/11'}
+      {url: 'https://jsonplaceholder.typicode.com/posts/11'},
+      [
+        {url: 'https://jsonplaceholder.typicode.com/posts/12'},
+        {url: 'https://jsonplaceholder.typicode.com/posts/13'}
+      ]
     ],
-    {url: 'https://jsonplaceholder.typicode.com/posts/12'},
-    {url: 'https://jsonplaceholder.typicode.com/posts/13'}
+    {url: 'https://jsonplaceholder.typicode.com/posts/14'},
+    {url: 'https://jsonplaceholder.typicode.com/posts/15'}
   ])
 ])
 
