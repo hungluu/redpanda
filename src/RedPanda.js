@@ -6,7 +6,8 @@ import RequestSequence from './RequestSequence'
 
 /**
  * The RedPanda Api Center
- * @param {object} namedEntities The named request / request group registry
+ *
+ * @example var net = new RedPanda()
  */
 class RedPanda {
   constructor () {
@@ -16,8 +17,8 @@ class RedPanda {
     /**
      * Get request options
      *
-     * @param {string|Array|object} key
-     * @return {Array}
+     * @param {string|array|object} key
+     * @return {array}
      */
     this.get = (key) => reg.get(key)
 
@@ -25,8 +26,8 @@ class RedPanda {
      * Name a request by options or an array of request options
      *
      * @param {string} key option name
-     * @param {string|Array|object} value option value
-     * @return {Array}
+     * @param {string|object|array|RequestSequence} value option value, multi-dimensional array allowed
+     * @return {this}
      */
     this.set = (key, value) => {
       reg.set(key, value)
@@ -37,27 +38,24 @@ class RedPanda {
      * Flatten multi-level request stacks passed in
      *
      * @param {mixed} options
-     * @return {Array}
+     * @return {object[]}
      */
     this.flatten = (options) => reg.flatten(options)
   };
 
   /**
-   * Send a request with options defined by name
+   * Send a request with options defined by name, parallelly for sequentially (if item is a RequestSequence)
    *
-   * @param {string} requestName name of request that defined
-   * @return {PromiseCollection}
-   */
-  /**
-   * Send a request with options
+   * @param {string|object|array} requestOptions
+   *  <p>If a string provided, it is name of request that defined.</p>
+   *  <p>If an object provided, it is options of request, method is 'GET' by default.<</p>
+   *  <p>If an array provided, it is an array of request options or request name.</p>
    *
-   * @param {object} requestOptions options of request, method is 'GET' by default
-   * @return {PromiseCollection}
-   */
-  /**
-   * Send a bulk of requests in parallels
+   * @example net.send('requestName').then(...)
+   * @example net.send({url: 'http://example.com'}).then(...)
+   * @example net.send(['request1', 'request2', {url: 'http://example.com'}]).then(...)
+   * @example net.send(['request1', net.sequence(['request1', 'request2'])]).then(...)
    *
-   * @param {array} requestOptionArray an array of request options or request name
    * @return {PromiseCollection}
    */
   send (requestOptions) {
@@ -70,21 +68,13 @@ class RedPanda {
   };
 
   /**
-   * Create a request sequence by request name
+   * Create a request sequence to be used for .send method
    *
-   * @param {string} requestName name of request that defined
-   * @return {PromiseCollection}
-   */
-  /**
-   * Create a request sequence by request options
+   * @param {string|object|array} requestOptions
+   *  <p>If a string provided, it is name of request that defined.</p>
+   *  <p>If an object provided, it is options of request, method is 'GET' by default.<</p>
+   *  <p>If an array provided, it is an array of request options or request name.</p>
    *
-   * @param {object} requestOptions options of request, method is 'GET' by default
-   * @return {PromiseCollection}
-   */
-  /**
-   * Create a request sequence bu a bulk of requests that is intended to process sequentialy
-   *
-   * @param {array} requestOptionArray an array of request options or request name
    * @return {RequestSequence}
    */
   sequence(requestOptions) {
@@ -102,7 +92,7 @@ class RedPanda {
 
   /**
    * An ultility function to manually get a rejected promise
-   * @param {string} value
+   * @param {Error|string} error Error that being thrown or a error string message
    * @return {Promise}
    */
   reject (error) {
@@ -112,6 +102,7 @@ class RedPanda {
   /**
    * An ultility function to manually wait some promises
    * @param {Promise[]} promises
+   * @return {Promise}
    */
   waitAll (promises) {
     return Promise.all(promises)

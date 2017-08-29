@@ -64,6 +64,9 @@ queueStack
   .then(data => data.json())
   .then(json => { console.log(json.id); return json.id })
   // .catch(err => console.log(err))
-  .all()
+queueStack.all()
+  .then((data) => console.log(data))
+  .catch(errorMessage => console.log(errorMessage));
+queueStack.all()
   .then((data) => console.log(data))
   .catch(errorMessage => console.log(errorMessage));

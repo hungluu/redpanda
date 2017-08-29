@@ -1,6 +1,11 @@
 // import Iterator from './Iterator'
 import PromiseCollection from './PromiseCollection'
 
+/**
+ * A sequence that has many requests being sent sequentially.
+ *
+ * Currently no public API provided.
+ */
 class RequestSequence {// extends Iterator {
   constructor (flattenOptions, net) {
     // super()

@@ -21,7 +21,7 @@ class PromiseCollection {
    */
   get (index) {
     if (typeof index === 'undefined' || !(this.items[index] instanceof Promise)) {
-      return Promise.reject('[RedPanda PromiseCollection] No promise found for index ' + index)
+      return Promise.reject(new Error('[RedPanda PromiseCollection] No promise found for index ' + index))
     }
 
     return this.items[index]
@@ -71,7 +71,7 @@ class PromiseCollection {
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then
    * @param {Function} fn
-   * @return @this
+   * @return {this}
    */
   then (fn) {
     this.items = this.items.map((promise) => promise.then(fn))
@@ -83,7 +83,7 @@ class PromiseCollection {
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then
    * @param {Function} fn
-   * @return @this
+   * @return {this}
    */
   catch (fn) {
     this.items = this.items.map((promise) => promise.catch(fn))
