@@ -8,6 +8,7 @@ class Registry {
     this.items = {}
   };
 
+  // return this
   set(key, value) {
     // valueKind
     if (kindOf(value) !== 'array' && kindOf(value) !== 'object') {
@@ -19,6 +20,7 @@ class Registry {
     }
 
     this.items[key] = value
+    return this
   };
 
   // string --> array[object]
@@ -52,10 +54,9 @@ class Registry {
     let itemKind = kindOf(item)
 
     if (itemKind !== 'object') {
-      if (itemKind === 'array') {
+      // if (itemKind === 'array') {
         // throw new Error('[RedPanda Registry] only one level of stack is allowed');
-      }
-      console.log(item)
+      // }
       throw new Error('[RedPanda Registry] item must be object to inherit');
     }
 

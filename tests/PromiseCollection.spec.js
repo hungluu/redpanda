@@ -3,7 +3,7 @@ import PromiseCollection from '../src/PromiseCollection'
 describe('(Private) PromiseCollection', () => {
   let collection
 
-  before(function () {
+  before(() => {
     collection = new PromiseCollection([
       Promise.resolve(0),
       Promise.resolve(1),
@@ -89,18 +89,7 @@ describe('(Private) PromiseCollection', () => {
 
     it('Can attach a rejected callback to all promises inside', (done) => {
       let counter = 0
-      collection.then(() => {
-        if (counter > 0) {
-          done()
-        }
-
-        counter++
-      })
-    })
-
-    it('Can attach more than one rejected callback to all promises inside', (done) => {
-      let counter = 0
-      collection.then(() => {}).then(() => {}).then(() => {
+      collection.catch(() => {
         if (counter > 0) {
           done()
         }
