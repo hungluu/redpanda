@@ -11,9 +11,9 @@
  * @property {Promise[]} items
  */
 class PromiseCollection {
-  constructor (promises) {
+  constructor(promises) {
     this.items = promises
-  };
+  }
 
   /**
    * Get a promise in this collection by index
