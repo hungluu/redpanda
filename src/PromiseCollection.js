@@ -6,7 +6,9 @@
  * promises stacked inside
  *
  * @class PromiseCollection
- * @property {Array} items
+ * @param {Promise[]} promises
+ *
+ * @property {Promise[]} items
  */
 class PromiseCollection {
   constructor (promises) {
