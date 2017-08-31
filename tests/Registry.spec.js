@@ -166,7 +166,7 @@ describe('(Private) Registry', () => {
     })
 
     it('Should flatten and keep RequestSequence', () => {
-      let sequence = new RequestSequence()
+      let sequence = new RequestSequence([], this)
       expect(reg.flatten([[{a : 1}, [sequence]]])).to.deep.equal([{a : 1}, sequence])
     })
   })

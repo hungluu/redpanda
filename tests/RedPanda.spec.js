@@ -12,35 +12,35 @@ describe('(Public) RedPanda', () => {
       expect(net.reg).to.undefined()
     })
 
-    it('should publish its setter', () => {
+    it('Should publish its setter', () => {
       expect(net.set('a', {test: 1})).to.equal(net)
     })
 
-    it('should publish its getter', () => {
+    it('Should publish its getter', () => {
       expect(net.get('a')).to.deep.equal([{test : 1}])
     })
 
-    it('should publish its flattener', () => {
+    it('Should publish its flattener', () => {
       expect(net.flatten([{test : 1}, [{test2 : 2}, [{test2 : 3}]]])).to.deep.equal([{test : 1}, {test2 : 2}, {test2 : 3}])
     })
   })
 
   describe('#sequence', () => {
-    it('should return a RequestSequence object', () => {
+    it('Should return a RequestSequence object', () => {
       expect(net.sequence([])).instanceOf(RequestSequence)
     })
   })
 
   describe('promise helpers', () => {
-    it('should return a Promise that resolves by a value using #resolve', () => {
+    it('Should return a Promise that resolves by a value using #resolve', () => {
       expect(net.resolve(1)).to.become(1)
     })
 
-    it('should return a Promise that rejected by an Error using #reject', (done) => {
+    it('Should return a Promise that rejected by an Error using #reject', (done) => {
       net.reject(new Error('test-error')).catch(e => e.message === 'test-error' && done())
     })
 
-    it('should return a Promise resolves when all provided promises resolve using #waitAll', () => {
+    it('Should return a Promise resolves when all provided promises resolve using #waitAll', () => {
       expect(net.waitAll([Promise.resolve(1), Promise.resolve(2)])).to.become([1, 2])
     })
   })
@@ -52,15 +52,15 @@ describe('(Public) RedPanda', () => {
       net.set('req-2', {url : 'https://jsonplaceholder.typicode.com/posts/2'})
     })
 
-    it('should send a request by request option object and receive response', (done) => {
+    it('Should send a request by request option object and receive response', (done) => {
       net.send({url : 'https://jsonplaceholder.typicode.com/posts/1'}).then((data) => data.json()).then(json => json.id === 1 && done())
     })
 
-    it('should send a request by request name and receive response', (done) => {
+    it('Should send a request by request name and receive response', (done) => {
       net.send('req-1').then((data) => data.json()).then(json => json.id === 1 && done())
     })
 
-    it('should send a request sequence and receive response', (done) => {
+    it('Should send a request sequence and receive response', (done) => {
       net.send(net.sequence(['req-1', 'req-2'])).then((data) => data.json()).then((json) => json.id).all().then((data) => {
         if (JSON.stringify(data) === JSON.stringify([[1, 2]])) {
           done()
@@ -71,7 +71,7 @@ describe('(Public) RedPanda', () => {
       })
     })
 
-    it('should send a stack of requests if array passed in', (done) => {
+    it('Should send a stack of requests if array passed in', (done) => {
       let counter = 0
       net.send(['req-1', 'req-2']).then((data) => {
         counter++
@@ -85,7 +85,7 @@ describe('(Public) RedPanda', () => {
       })
     })
 
-    it('should send a stack of requests that can wait for all responses received', (done) => {
+    it('Should send a stack of requests that can wait for all responses received', (done) => {
       net.send(['req-1', 'req-2']).then((data) => data.json()).then((json) => json.id).all().then((data) => {
         if (JSON.stringify(data) === JSON.stringify([1, 2])) {
           done()
@@ -96,7 +96,7 @@ describe('(Public) RedPanda', () => {
       })
     })
 
-    it('should send a stack of requests containing RequestSequence', (done) => {
+    it('Should send a stack of requests containing RequestSequence', (done) => {
       let counter = 0
       net.send(['req-1', net.sequence(['req-1', 'req-2'])]).then((data) => {
         counter++
@@ -110,7 +110,7 @@ describe('(Public) RedPanda', () => {
       })
     })
 
-    it('should flatten request stacks and receive response', (done) => {
+    it('Should flatten request stacks and receive response', (done) => {
       net.send(['req-1', 'req-2', ['req-1', 'req-2'], net.sequence(['req-1', 'req-2'])]).then((data) => data.json()).then((json) => json.id).all().then((data) => {
         if (JSON.stringify(data) === JSON.stringify([1, 2, 1, 2, [1, 2]])) {
           done()
