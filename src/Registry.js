@@ -36,7 +36,7 @@ class Registry {
       return key.map(item => this.get(item, true))
     }
     else if (keyKind !== 'string') {
-      throw Error('get')
+      throw Error('[RedPanda Registry] invalid key')
     }
     else if (kindOf(this.items[key]) === 'array') {
       return this.items[key].map(item => {
@@ -89,8 +89,11 @@ class Registry {
       // return the object-self
       return key;
     }
+    else if (keyKind === 'array') {
+      return key.map(item => this.getRaw(item))
+    }
     else if (keyKind !== 'string') {
-      throw Error('getRaw')
+      throw Error('[RedPanda Registry] invalid key for getRaw')
     }
     else if (valueKind === 'array') {
       return this.items[key].map((item) => this.getRaw(item))
@@ -119,7 +122,7 @@ class Registry {
           flatList.push(option)
           break
         default:
-          throw Error('Unsupported type')
+        throw Error('[RedPanda Registry] invalid type to flatten')
       }
     })
 

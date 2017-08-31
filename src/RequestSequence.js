@@ -8,6 +8,11 @@ import PromiseCollection from './PromiseCollection'
  */
 class RequestSequence {// extends Iterator {
   constructor (flattenOptions, net) {
+    flattenOptions.forEach(function(e) {
+      if (e instanceof RequestSequence) {
+        throw Error('[RedPanda RequestSequence] Can not stack another sequence inside.')
+      }
+    })
     // super()
     this.net = net
     this.resolveStack = []

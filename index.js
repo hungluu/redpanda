@@ -58,15 +58,25 @@ net.set('all_p', ['b', 'c', 'e', 'f', 'd_p',
 //   .then(json => console.log(json.id))
 //   .catch(err => console.log(err))
 
-var queueStack = net.send('all_p')
-// console.log(queueStack)
-queueStack
-  .then(data => data.json())
-  .then(json => { console.log(json.id); return json.id })
-  // .catch(err => console.log(err))
-queueStack.all()
-  .then((data) => console.log(data))
-  .catch(errorMessage => console.log(errorMessage));
-queueStack.all()
-  .then((data) => console.log(data))
-  .catch(errorMessage => console.log(errorMessage));
+// var queueStack = net.send('all_p')
+// // console.log(queueStack)
+// queueStack
+//   .then(data => data.json())
+//   .then(json => { console.log(json.id); return json.id })
+//   // .catch(err => console.log(err))
+// queueStack.all()
+//   .then((data) => console.log(data))
+//   .catch(errorMessage => console.log(errorMessage));
+// queueStack.all()
+//   .then((data) => console.log(data))
+//   .catch(errorMessage => console.log(errorMessage));
+var net = new RedPanda()
+net.send([
+  net.sequence([
+    {url: 'https://jsonplaceholder.typicode.com/posts/3'},
+    {url: 'https://jsonplaceholder.typicode.com/posts/4'}
+  ])
+])
+.then(data => data.json())
+.all()
+.then(data => console.log(data))
