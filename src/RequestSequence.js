@@ -8,7 +8,7 @@ import PromiseCollection from './PromiseCollection'
  */
 class RequestSequence {// extends Iterator {
   constructor (flattenOptions, net) {
-    flattenOptions.forEach(function(e) {
+    flattenOptions.forEach(function (e) {
       if (e instanceof RequestSequence) {
         throw Error('[RedPanda RequestSequence] Can not stack another sequence inside.')
       }
@@ -16,7 +16,7 @@ class RequestSequence {// extends Iterator {
     // super()
     this.net = net
     this.resolveStack = []
-    this.rejectStack  = []
+    this.rejectStack = []
     this.items = flattenOptions
     this.promises = []
   };
@@ -30,11 +30,11 @@ class RequestSequence {// extends Iterator {
 
   nextRequest () {
     this.next()
-    if(this.valid()) {
-      let key = this.key,
-        resolve = this.resolveStack[key],
-        reject  = this.rejectStack[key],
-        currentOption = this.current()
+    if (this.valid()) {
+      let key = this.key
+      let resolve = this.resolveStack[key]
+      let reject = this.rejectStack[key]
+      let currentOption = this.current()
 
       this.net.send(currentOption)
         .then((data) => {
@@ -45,34 +45,34 @@ class RequestSequence {// extends Iterator {
     }
   };
 
-  next() {
+  next () {
     this.key++
   };
 
-  stack() {
+  stack () {
     return new PromiseCollection(this.promises)
   };
 
-  rewind() {
+  rewind () {
     this.key = -1
   };
 
-  current() {
+  current () {
     return this.items[this.key]
   };
 
-  count() {
+  count () {
     return this.items.length
   };
 
-  valid() {
+  valid () {
     return this.key >= 0 && this.key < this.count()
   };
 
-  start() {
-    this.resolveStack = [];
-    this.rejectStack  = [];
-    this.promises = this.createPromises();
+  start () {
+    this.resolveStack = []
+    this.rejectStack = []
+    this.promises = this.createPromises()
     this.rewind()
     this.nextRequest()
     return this.stack()

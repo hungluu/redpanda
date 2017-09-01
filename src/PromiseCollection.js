@@ -11,7 +11,7 @@
  * @property {Promise[]} items
  */
 class PromiseCollection {
-  constructor(promises) {
+  constructor (promises) {
     this.items = promises
   }
 

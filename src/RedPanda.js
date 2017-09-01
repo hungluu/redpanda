@@ -75,7 +75,7 @@ class RedPanda {
    *
    * @return {RequestSequence}
    */
-  sequence(requestOptions) {
+  sequence (requestOptions) {
     return new RequestSequence(this.flatten(requestOptions), this)
   };
 
