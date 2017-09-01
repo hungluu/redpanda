@@ -1,6 +1,6 @@
 {
   "name": "redpanda",
-  "version": "0.0.1-alpha",
+  "version": "0.0.2-alpha",
   "description": "A lightweight Javascript library for executing, mapping, chaining data with your API calls",
   "main": "index.js",
   "scripts": {
