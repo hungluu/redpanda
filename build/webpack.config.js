@@ -255,6 +255,8 @@ if (__PROD__) {
     /\/iconv-loader$/, 'node-noop'
   ))
 
+  config.plugins.push(new webpack.BannerPlugin({banner: '/*! RedPanda 0.0.3 | EosDreams | Hung Luu (c) 2017 | MIT LICENSE */', raw: true, entryOnly: true}))
+
   node_config = Object.assign({}, config, {
     target: 'node',
     entry: {
