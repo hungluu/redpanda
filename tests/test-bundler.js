@@ -1,4 +1,4 @@
-import 'normalize.js'
+import './normalize.js'
 import chai from 'chai'
 import sinon from 'sinon'
 import dirtyChai from 'dirty-chai'

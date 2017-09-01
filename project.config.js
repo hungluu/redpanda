@@ -19,6 +19,10 @@ module.exports = {
   srcDir: 'src',
   /** The file name of the application's entry point */
   main: 'main',
+  /** The file name of the application's entry point with Promises included */
+  main_promises: 'main_promises',
+  /** The file name of the application's entry point for NodeJS environment */
+  main_node: 'main_node',
   /** The name of the directory in which to emit compiled assets */
   outDir: 'dist',
   /** The base path for all projects assets (relative to the website root) */

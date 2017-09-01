@@ -21,7 +21,7 @@ const __PROD__ = project.env === 'production'
 
 const config = {
   entry: {
-    main: [
+    redpanda: [
       inProjectSrc(project.main),
     ],
   },
@@ -219,9 +219,15 @@ if (!__TEST__ && hasFeature('commonChunk')) {
   config.plugins.push(new webpack.optimize.CommonsChunkPlugin({ names: bundles }))
 }
 
+let finalConfig = config
+
 // Production Optimizations
 // ------------------------------------
 if (__PROD__) {
+  finalConfig = [config]
+
+  config.entry['redpanda.promises'] = [inProjectSrc(project.main_promises)]
+
   config.plugins.push(
     new webpack.LoaderOptionsPlugin({
       minimize: true,
@@ -244,6 +250,25 @@ if (__PROD__) {
       },
     })
   )
+
+  config.plugins.push(new webpack.NormalModuleReplacementPlugin(
+    /\/iconv-loader$/, 'node-noop'
+  ))
+
+  node_config = Object.assign({}, config, {
+    target: 'node',
+    entry: {
+      'redpanda.node': [ inProjectSrc(project.main_node) ]
+    },
+    output: {
+      libraryTarget: "commonjs2",
+      path: inProject(project.outDir),
+      filename: __DEV__ || !hasFeature('chunkHashJs') ? '[name].js' : '[name].[chunkhash].js',
+      publicPath: project.publicPath,
+    }
+  })
+
+  finalConfig.push(node_config)
 }
 
-module.exports = config
+module.exports = finalConfig

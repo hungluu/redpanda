@@ -1,5 +1,3 @@
-require('isomorphic-fetch')
-
 import Registry from './Registry'
 import PromiseCollection from './PromiseCollection'
 import RequestSequence from './RequestSequence'

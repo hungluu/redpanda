@@ -1,7 +1,6 @@
 import RedPanda from './RedPanda'
 
 // const app = self = window ? window : global
-
 // 1) Object.assign
 // ------------------------------------
 // We can't rely on Object.assign being a function since it may be buggy, so
@@ -10,7 +9,13 @@ import RedPanda from './RedPanda'
 // and the native implementation used.
 Object.assign = require('object-assign')
 
+// 2) Promise
+// ------------------------------------
+if (typeof window.Promise === 'undefined') {
+  require('promise/lib/rejection-tracking').enable()
+  window.Promise = require('promise/lib/es6-extensions.js')
+}
+
 // 3) Exports RedPanda
 require('whatwg-fetch')
-
 window.RedPanda = RedPanda
