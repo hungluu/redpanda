@@ -1,6 +1,6 @@
 {
   "name": "redpanda",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A lightweight Javascript library for executing, mapping, chaining data with your API calls",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,11 @@
     "map",
     "data",
     "chain",
-    "mock"
+    "mock",
+    "ajax",
+    "json",
+    "fetch",
+    "advanced"
   ],
   "author": "Hung Luu <hungluu.com>",
   "license": "MIT",

@@ -27,12 +27,24 @@ describe('(Dist) RedPanda With Promises', () => {
     expect(net.send('parallel').then((data) => data.json()).then((json) => json.id).all()).to.become([1, 2, 3])
   })
 
+  it('Should be able to send parallel requests and at callback to last one', () => {
+    expect(net.send('parallel').then((data) => data.json()).then((json) => json.id).last()).to.become(3)
+  })
+
   it('Should be able to send sequence requests', () => {
     expect(net.send('sequence').then((data) => data.json()).then((json) => json.id).all()).to.become([[4, 5, 6]])
   })
 
+  it('Should be able to send sequence requests and at callback to last one', () => {
+    expect(net.send('sequence').then((data) => data.json()).then((json) => json.id).last()).to.become(6)
+  })
+
   it('Should be able to send parallel requests containing sequence', () => {
     expect(net.send('parallel-sequence').then((data) => data.json()).then((json) => json.id).all()).to.become([1, 2, 3, [4, 5, 6]])
+  })
+
+  it('Should be able to send parallel requests containing sequence and at callback to only sequence', () => {
+    expect(net.send('parallel-sequence').then((data) => data.json()).then((json) => json.id).last()).to.become([4, 5, 6])
   })
 })
 
