@@ -28,7 +28,11 @@
     "map",
     "data",
     "chain",
-    "mock"
+    "mock",
+    "ajax",
+    "json",
+    "fetch",
+    "advanced"
   ],
   "author": "Hung Luu <hungluu.com>",
   "license": "MIT",

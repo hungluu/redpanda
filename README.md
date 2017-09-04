@@ -8,21 +8,19 @@ RedPanda - A lightweight Javascript library for executing, mapping, chaining dat
 
 ### Features
 
-- Fast and reliable
-- Built on top of whatwg `fetch` API
-- Promises influenced
+- Fast and reliable, less code, complete more tasks
+- Built on top of whatwg `fetch` API, Promises influenced
 - Strict type checking, less error prones
-- Advanced structure of AJAX
+- Pro in AJAX
 - Well tested with mocha
-- Same code for browser and NodeJS
-- More will be added later
+- Same code for browser and NodeJS, more will be added later...
 
 ### Table of contents
 
 - [Installation](#installation)
 - [Simple requests](#simple-requests)
 - [Fetch API](#fetch-api)
-- [Build AJAX application structure](#build-ajax-application-structure)
+- [Build advanced AJAX application structure](#build-advanced-ajax-application-structure)
 
 ## Installation
 
@@ -33,11 +31,11 @@ npm i --save redpanda   # or yarn add redpanda
 RedPanda can also be adopted into your view file from jsdelivr
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.3/dist/redpanda.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.4/dist/redpanda.js"></script>
 ```
 For older browser like IE11m which doesn't supports the Promise API natively, don't worry we've already package it for you. All you need to do is including only one line:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.3/dist/redpanda.promises.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.4/dist/redpanda.promises.js"></script>
 ```
 
 ## Simple requests
@@ -50,7 +48,7 @@ net.send({url: '...'}).then((data) => console.log(data))
 // POST return JSON --> JSON.parse object automatically
 net.send({url: '...'}).then((data) => data.json()).then((json) => console.log(json))
 // get HTML
-net.send({url: '...'}).then((data) => data.html()).then((json) => console.log(html))
+net.send({url: '...'}).then((data) => data.html()).then((html) => console.log(html))
 ```
 Calling a bundle of requests parallelly
 ```javascript
@@ -64,7 +62,7 @@ net.send(sequence).then((data) => console.log(data))
 
 ## Fetch API
 
-This library is built on top of [Isomorphic Fetch](https://www.npmjs.com/package/isomorphic-fetch), more detailed documentation can be found in [Github's Fetch polyfill](https://github.com/github/fetch)
+This library is built on top of [Github's Fetch polyfill](https://github.com/github/fetch) for browser and [Node `native http` fetch](https://github.com/bitinn/node-fetch) for NodeJS environment
 
 ```javascript
 // POST FORM
@@ -89,7 +87,7 @@ net.send({
 })
 ```
 
-## Build AJAX application structure
+## Build advanced AJAX application structure
 
 Send a parallel stack
 
@@ -118,12 +116,13 @@ Send a sequence (request sent only when previous one has responsed)
 net.set('sequence', net.sequence(['entry-1', 'entry-2', 'entry-3']))
 
 // Send the sequence
+// And receive responses sequentially
 net.send('sequence').then(...) // responses seq-1, seq-2, seq-3
 
 // Send the sequence and attach callback into last entry (entry-3)
-net.send('parallel').last().then(...) // responses seq-3
+net.send('sequence').last().then(...) // responses seq-3
 // Or wait for all reponses
-net.send('parallel').all().then(...) // responses [seq-1, seq-2, seq-3]
+net.send('sequence').all().then(...) // responses [seq-1, seq-2, seq-3]
 ```
 Send a parallel stack that contains a sequence
 
@@ -133,13 +132,13 @@ net.set('parallel-sequence', ['parallel', 'sequence'])
 
 // Send the parallel stack that contains a sequence
 // The requests inside sequence still keep their order
-net.send('sequence').then(...) // responses par-3, par-1, seq-1, par-2, seq-2, seq-3
+net.send('parallel-sequence').then(...) // responses par-3, par-1, seq-1, par-2, seq-2, seq-3
 
 // Send the sequence and attach callback into last entry (entry-3)
-net.send('parallel').last().then(...) // responses seq-1, seq-2, seq-3
+net.send('parallel-sequence').last().then(...) // responses seq-1, seq-2, seq-3
 // Or wait for all reponses
 // The reponses of sequence still stack with each other
-net.send('parallel').all().then(...) // responses [par-1, par-2, par-3, [seq-1, seq-2, seq-3]]
+net.send('parallel-sequence').all().then(...) // responses [par-1, par-2, par-3, [seq-1, seq-2, seq-3]]
 ```
 
 ### Want more?
