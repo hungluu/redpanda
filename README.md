@@ -31,11 +31,11 @@ npm i --save redpanda   # or yarn add redpanda
 RedPanda can also be adopted into your view file from jsdelivr
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.6/dist/redpanda.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.7/dist/redpanda.js"></script>
 ```
 For older browser like IE11m which doesn't supports the Promise API natively, don't worry we've already package it for you. All you need to do is including only one line:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.6/dist/redpanda.promises.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.7/dist/redpanda.promises.js"></script>
 ```
 
 ## Simple requests
