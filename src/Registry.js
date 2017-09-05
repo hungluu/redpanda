@@ -62,12 +62,12 @@ class Registry {
 
   // check for valid value type
   // array of object
-  has (key) {
-    // return kindOf(this.items[key]) === 'array'
-    // use `typeof` to speed up because we already test
-    // value type in .set
-    return typeof this.items[key] !== 'undefined'
-  }
+  // has (key) {
+  //   // return kindOf(this.items[key]) === 'array'
+  //   // use `typeof` to speed up because we already test
+  //   // value type in .set
+  //   return typeof this.items[key] !== 'undefined'
+  // }
 
   // inherits
   // array items

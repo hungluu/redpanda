@@ -28,13 +28,13 @@ describe('(Private) RequestSequence', () => {
       sequence = new RequestSequence(['a', 'b'], net)
     })
 
-    it('Should count items with #count', () => {
-      expect(sequence.count()).to.equal(2)
-    })
+    // it('Should count items with #count', () => {
+    //   expect(sequence.count()).to.equal(2)
+    // })
 
-    it('Should stack items into a PromiseCollection with #stack', () => {
-      expect(sequence.stack()).instanceOf(PromiseCollection)
-    })
+    // it('Should stack items into a PromiseCollection with #stack', () => {
+    //   expect(sequence.stack()).instanceOf(PromiseCollection)
+    // })
 
     it('Should move index to -1 with #rewind', () => {
       sequence.rewind()
