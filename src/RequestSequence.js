@@ -49,9 +49,9 @@ class RequestSequence {// extends Iterator {
     this.key++
   };
 
-  stack () {
-    return new PromiseCollection(this.promises)
-  };
+  // stack () {
+  //   return new PromiseCollection(this.promises)
+  // };
 
   rewind () {
     this.key = -1
@@ -61,12 +61,12 @@ class RequestSequence {// extends Iterator {
     return this.items[this.key]
   };
 
-  count () {
-    return this.items.length
-  };
+  // count () {
+  //   return this.items.length
+  // };
 
   valid () {
-    return this.key >= 0 && this.key < this.count()
+    return this.key >= 0 && this.key < this.items.length // this.count()
   };
 
   start () {
@@ -75,7 +75,8 @@ class RequestSequence {// extends Iterator {
     this.promises = this.createPromises()
     this.rewind()
     this.nextRequest()
-    return this.stack()
+    return new PromiseCollection(this.promises)
+    // return this.stack()
   };
 }
 

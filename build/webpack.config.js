@@ -11,6 +11,7 @@ const path = require('path')
 const webpack = require('webpack')
 const inProject = path.resolve.bind(path, project.basePath)
 const inProjectSrc = (file) => inProject(project.srcDir, file)
+const package = require('../package.json')
 
 // Conditional dependencies
 const ExtractTextPlugin = hasFeature('html') || hasFeature('css') ? require('extract-text-webpack-plugin') : null
@@ -255,7 +256,7 @@ if (__PROD__) {
     /\/iconv-loader$/, 'node-noop'
   ))
 
-  config.plugins.push(new webpack.BannerPlugin({banner: '/*! RedPanda 0.0.3 | EosDreams | Hung Luu (c) 2017 | MIT LICENSE */', raw: true, entryOnly: true}))
+  config.plugins.push(new webpack.BannerPlugin({banner: '/*! ' + package.name + ' ' + package.version + ' | EosDreams | ' + package.author + ' (c) 2017 | MIT LICENSE */', raw: true, entryOnly: true}))
 
   node_config = Object.assign({}, config, {
     target: 'node',

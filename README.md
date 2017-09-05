@@ -31,11 +31,11 @@ npm i --save redpanda   # or yarn add redpanda
 RedPanda can also be adopted into your view file from jsdelivr
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.4/dist/redpanda.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.6/dist/redpanda.js"></script>
 ```
 For older browser like IE11m which doesn't supports the Promise API natively, don't worry we've already package it for you. All you need to do is including only one line:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.4/dist/redpanda.promises.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/redpanda@0.0.6/dist/redpanda.promises.js"></script>
 ```
 
 ## Simple requests
@@ -44,20 +44,20 @@ Calling API and handling response is so simple
 
 ```javascript
 net = new RedPanda()
-net.send({url: '...'}).then((data) => console.log(data))
+net.send({url: '...'}).then((data) => console.log(data)) // Body {...}
 // POST return JSON --> JSON.parse object automatically
-net.send({url: '...'}).then((data) => data.json()).then((json) => console.log(json))
+net.send({url: '...'}).then((data) => data.json()).then((json) => console.log(json)) // {id: 3, text: 'Lorem ...'}
 // get HTML
-net.send({url: '...'}).then((data) => data.html()).then((html) => console.log(html))
+net.send({url: '...'}).then((data) => data.html()).then((html) => console.log(html)) // <p>Lorem Islum</p>
 ```
 Calling a bundle of requests parallelly
 ```javascript
-net.send([{url: '...'}, {url: '...'}]).then((data) => console.log(data))
+net.send([{url: '...'}, {url: '...'}]).then((data) => console.log(data)) // Body {...}
 ```
 Calling a bundle of requests sequentially
 ```javascript
 let sequence = net.sequence([{url: '...'}, {url: '...'}])
-net.send(sequence).then((data) => console.log(data))
+net.send(sequence).then((data) => console.log(data)) // Body {...}
 ```
 
 ## Fetch API

@@ -104,15 +104,15 @@ describe('(Private) Registry', () => {
     })
   })
 
-  describe('#has', () => {
-    it('Should return true if item exists', () => {
-      expect(reg.has('gets')).to.equal(true)
-    })
+  // describe('#has', () => {
+  //   it('Should return true if item exists', () => {
+  //     expect(reg.has('gets')).to.equal(true)
+  //   })
 
-    it('Should return false if item doesn\'t exist', () => {
-      expect(reg.has('non-existing')).to.equal(false)
-    })
-  })
+  //   it('Should return false if item doesn\'t exist', () => {
+  //     expect(reg.has('non-existing')).to.equal(false)
+  //   })
+  // })
 
   describe('#getRaw', () => {
     it('Should return object or array', () => {
