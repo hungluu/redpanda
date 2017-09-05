@@ -57,9 +57,12 @@ class RedPanda {
    * @return {PromiseCollection}
    */
   send (requestOptions) {
-    let promises = this.flatten(requestOptions).map((option) => option instanceof RequestSequence
-      ? (new RequestSequence(option.items, this)).start()
-      : fetch(option.url, option)
+    let promises = this.flatten(requestOptions).map((option) =>
+      option instanceof Promise // use for customizing send
+      ? option // return the Promise-self
+      : option instanceof RequestSequence
+        ? (new RequestSequence(option.items, this)).start() // start a sequence
+        : fetch(option.url, option) // send simple request
     )
 
     return new PromiseCollection(promises)
