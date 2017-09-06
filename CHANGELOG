@@ -1,3 +1,4 @@
+0.0.8 Remove Promise helpers, add static aliases
 0.0.7 Remove unused files
 0.0.6 Remove unused code, update document
 0.0.5 Fix wrong dependencies

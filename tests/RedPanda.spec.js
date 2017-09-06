@@ -31,25 +31,29 @@ describe('(Public) RedPanda', () => {
     })
   })
 
-  describe('promise helpers', () => {
-    it('Should return a Promise that resolves by a value using #resolve', () => {
-      expect(net.resolve(1)).to.become(1)
-    })
+  // describe('promise helpers', () => {
+  //   it('Should return a Promise that resolves by a value using #resolve', () => {
+  //     expect(net.resolve(1)).to.become(1)
+  //   })
 
-    it('Should return a Promise that rejected by an Error using #reject', (done) => {
-      net.reject(new Error('test-error')).catch(e => e.message === 'test-error' && done())
-    })
+  //   it('Should return a Promise that rejected by an Error using #reject', (done) => {
+  //     net.reject(new Error('test-error')).catch(e => e.message === 'test-error' && done())
+  //   })
 
-    it('Should return a Promise resolves when all provided promises resolve using #waitAll', () => {
-      expect(net.waitAll([Promise.resolve(1), Promise.resolve(2)])).to.become([1, 2])
-    })
-  })
+  //   it('Should return a Promise resolves when all provided promises resolve using #waitAll', () => {
+  //     expect(net.waitAll([Promise.resolve(1), Promise.resolve(2)])).to.become([1, 2])
+  //   })
+  // })
 
   describe('#send', () => {
     before(() => {
       net = new RedPanda()
       net.set('req-1', {url : 'https://jsonplaceholder.typicode.com/posts/1'})
       net.set('req-2', {url : 'https://jsonplaceholder.typicode.com/posts/2'})
+    })
+
+    it('Should return the Promise if passed in', (done) => {
+      net.send(Promise.resolve('test-promise')).then(json => json === 'test-promise' && done())
     })
 
     it('Should send a request by request option object and receive response', (done) => {

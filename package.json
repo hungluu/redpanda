@@ -1,6 +1,6 @@
 {
   "name": "redpanda",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A lightweight Javascript library for executing, mapping, chaining data with your API calls",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,8 @@
     "test": "npm run lint & npm run fast-test",
     "lint": "eslint ./src",
     "lint:fix": "npm run lint -- --fix",
-    "doc": "documentation build src/RedPanda.js -f md -o APIDOC.md"
+    "doc": "documentation build src/RedPanda.js -f md -o APIDOC.md",
+    "attempt": "babel-node --presets es2015 index.js"
   },
   "repository": {
     "type": "git",
@@ -25,14 +26,14 @@
     "redpanda",
     "api",
     "call",
-    "map",
-    "data",
     "chain",
-    "mock",
     "ajax",
     "json",
     "fetch",
-    "advanced"
+    "advanced",
+    "parallel",
+    "sequence",
+    "sequential"
   ],
   "author": "Hung Luu <hungluu.com>",
   "license": "MIT",
@@ -53,9 +54,9 @@
     "compression": "^1.7.0",
     "cross-env": "^5.0.5",
     "dirty-chai": "^2.0.1",
-    "eslint": "^3.19.0",
+    "eslint": "^4.6.1",
     "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-babel": "^4.1.1",
+    "eslint-plugin-babel": "^4.1.2",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",

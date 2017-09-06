@@ -49,9 +49,6 @@ class Registry {
     let itemKind = kindOf(item)
 
     if (itemKind !== 'object') {
-      // if (itemKind === 'array') {
-        // throw new Error('[RedPanda Registry] only one level of stack is allowed');
-      // }
       throw new Error('[RedPanda Registry] item must be object to inherit')
     }
 
