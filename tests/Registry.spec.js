@@ -1,6 +1,6 @@
 import Registry from '../src/Registry'
-const kindOf = require('kind-of')
 import RequestSequence from '../src/RequestSequence'
+const kindOf = require('kind-of')
 
 describe('(Private) Registry', () => {
   let reg

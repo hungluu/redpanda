@@ -1,6 +1,6 @@
 import RedPanda from '../src/RedPanda'
-const kindOf = require('kind-of')
 import RequestSequence from '../src/RequestSequence'
+const kindOf = require('kind-of')
 
 describe('(Public) RedPanda', () => {
   let net
