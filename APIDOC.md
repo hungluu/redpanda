@@ -8,9 +8,8 @@
     -   [flatten](#flatten)
     -   [send](#send)
     -   [sequence](#sequence)
-    -   [resolve](#resolve)
-    -   [reject](#reject)
-    -   [waitAll](#waitall)
+-   [RedPanda.send](#redpandasend)
+-   [RedPanda.sequence](#redpandasequence)
 -   [PromiseCollection](#promisecollection)
     -   [get](#get-1)
     -   [count](#count)
@@ -104,35 +103,31 @@ Create a request sequence to be used for .send method
 
 Returns **[RequestSequence](#requestsequence)** 
 
-### resolve
+## RedPanda.send
 
-An ultility function to manually get a resolved promise
-
-**Parameters**
-
--   `value` **any** 
-
-Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** 
-
-### reject
-
-An ultility function to manually get a rejected promise
+Static alias for [#send](#send)
 
 **Parameters**
 
--   `error` **([Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))** Error that being thrown or a error string message
+-   `requestOptions`  
 
-Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** 
+**Examples**
 
-### waitAll
+```javascript
+RedPanda.send({url: 'http://example.com'}).then(...)
+```
 
-An ultility function to manually wait some promises
+Returns **[PromiseCollection](#promisecollection)** 
+
+## RedPanda.sequence
+
+Static alias for [#sequence](#sequence)
 
 **Parameters**
 
--   `promises` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)>** 
+-   `requestOptions`  
 
-Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** 
+Returns **[RequestSequence](#requestsequence)** 
 
 ## PromiseCollection
 

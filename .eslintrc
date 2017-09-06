@@ -1,8 +1,5 @@
 {
   "parser": "babel-eslint",
-  "files" : [
-    "src/*.js"
-  ],
   "extends": [
     "standard"
   ],

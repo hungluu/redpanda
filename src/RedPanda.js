@@ -57,9 +57,12 @@ class RedPanda {
    * @return {PromiseCollection}
    */
   send (requestOptions) {
-    let promises = this.flatten(requestOptions).map((option) => option instanceof RequestSequence
-      ? (new RequestSequence(option.items, this)).start()
-      : fetch(option.url, option)
+    let promises = this.flatten(requestOptions).map((option) =>
+      option instanceof Promise // use for customizing send
+        ? option // return the Promise-self
+        : option instanceof RequestSequence
+          ? (new RequestSequence(option.items, this)).start() // start a sequence
+          : fetch(option.url, option) // send simple request
     )
 
     return new PromiseCollection(promises)
@@ -80,30 +83,27 @@ class RedPanda {
   };
 
   /**
-   * An ultility function to manually get a resolved promise
-   * @param {*} value
-   * @return {Promise}
+   * Static alias for {@link #send}
+   *
+   * @example RedPanda.send({url: 'http://example.com'}).then(...)
+   *
+   * @name RedPanda.send
+   * @static
+   * @return {PromiseCollection}
    */
-  resolve (value) {
-    return Promise.resolve(value)
+  static send (requestOptions) {
+    return (new RedPanda()).send(requestOptions)
   };
 
   /**
-   * An ultility function to manually get a rejected promise
-   * @param {Error|string} error Error that being thrown or a error string message
-   * @return {Promise}
+   * Static alias for {@link #sequence}
+   *
+   * @static
+   * @name RedPanda.sequence
+   * @return {RequestSequence}
    */
-  reject (error) {
-    return Promise.reject(error)
-  };
-
-  /**
-   * An ultility function to manually wait some promises
-   * @param {Promise[]} promises
-   * @return {Promise}
-   */
-  waitAll (promises) {
-    return Promise.all(promises)
+  static sequence (requestOptions) {
+    return (new RedPanda()).sequence(requestOptions)
   };
 };
 
