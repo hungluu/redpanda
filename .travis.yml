@@ -2,6 +2,20 @@ language: node_js
 cache:
   yarn: true
   directories:
-    - node_modules
-node_js:
-  - "6"
+  - node_modules
+matrix:
+  fast_finish: true
+  include:
+  - node_js: '8'
+    env: SCRIPT=test
+  - node_js: '6'
+    env: SCRIPT=test
+  - node_js: '8'
+    env:
+    - SAUCE_USERNAME=redpanda
+    - SCRIPT=test-browsers
+script:
+- npm run ${SCRIPT}
+env:
+  global:
+    secure: KpA4F+wUWyas5Ymd24jGjxpgispDM2McTwFnGZjylCgNK2aJYSo3RkG7bKKp2p7dEUMqWBhtrgibqvgNUicqpL9wHZ0fCyqeLdYZahRhYBgSqaBFres4IYzHtemYIq51YIBnH3LKvXD2jAEB3OXN3U1fLOr8L7fgYuRaLNB/W3WXgqZEIXUqtI7BBx9rGxvKvSx8iV5kpsf3V1lShCzrHEDvtgYAx4YLsFwwZ9vEO/lmkU8CK90uqJUJwjKULtk8UCoj1EytT8BmhR0b3QqX6oZsUB1FwtdNuL9aWoNzgoZW0CsIvBGuTeevxfZmtGsLKvOQ+TiBOjXvidHVFhNwYKKzoMCo4YkIn6ufQkPe4av3xZO5GoYllY9+dbjJYn9eoUg16lztr6d8+Dwcidaqdq8YfH308ZKUM7sPDHGpgzEkdP+sbAHPWQCpJQh8xmrbrRsUJs8jjWvid9Ct9DiuNJ+s/d+aTlT0gUx1biqvdqQcnuuLSWjf+VXmqOp0WGOaFCjsXRcNnShBJKc5mLqfVmq+2tpeyJS0U5IJlwd/wXv2pdFX82JhxZNWRXRcdshYyC/zWjN2X1m+fRi2xICxwmMhCA4hroPiun7pVenlwbQaFa+736TvW/f8kszrVIMOYap1HDcleZpdax/Cg7Ps6Bbp/MlCJzbxPRlPcjF7r3Q=

@@ -1,30 +1,25 @@
 # RedPanda
 
-RedPanda - A lightweight Javascript library for executing, mapping, chaining data with your API calls, with Promises
+RedPanda - A lightweight Javascript library for organizing your API calls, with `fetch` and Promises
 
-[![npm][npm]][npm-url]
-[![deps][deps]][deps-url]
-[![builds][builds]][builds-url]
+[![npm][npm]][npm-url] [![deps][deps]][deps-url] [![builds][builds]][builds-url]
+[![saucelabs-matrix][saucelabs-matrix]][saucelabs-matrix-url]
 
 ### Features
-
 - Fast and reliable, less code, complete more tasks
 - Built on top of whatwg `fetch` API, Promises influenced
 - Strict type checking, less error prones
-- Pro in AJAX
 - Well tested with mocha
-- Same code for browser and NodeJS, more will be added later...
+- Same code for browser (IE9+) and NodeJS, more will be added later...
 
 ### Table of contents
-
 - [Installation](#installation)
 - [Simple requests](#simple-requests)
 - [Fetch API](#fetch-api)
 - [Build advanced AJAX application structure](#build-advanced-ajax-application-structure)
+- [Options reusing](#options-reusing)
 
 ## Installation
-
-
 ```bash
 npm i --save redpanda   # or yarn add redpanda
 ```
@@ -47,6 +42,10 @@ net.send({url: '...'})
   .then((data) => console.log(data)) // Body {...}
 // Or static method calls like
 RedPanda.send({url: '...'}).then((data) => console.log(data))
+// ES5 code be like
+RedPanda.send({url: '...'}).then(function (data) {
+  console.log(data)
+})
 ```
 
 2. Post a request and parse JSON responses
@@ -196,6 +195,24 @@ net.send('parallel-sequence')
   .then(...) // responses [par-1, par-2, par-3, [seq-1, seq-2, seq-3]]
 ```
 
+## Options reusing
+
+RedPanda 's option inheritance will help you build a flexible option system
+
+```javascript
+let net = new RedPanda()
+// Common options
+// Send request including cookies
+net.set('send-with-cookies', {credentials: 'include'})
+// Allow CORS
+net.set('allow-cors', {mode: 'cors'})
+// Common xsrf implementation
+net.set('xsrf', {headers: {'Accept': 'application/json', 'X-XSRF-TOKEN': getCookieValue('XSRF-TOKEN')})
+
+// Reuse common options
+net.send({url: '...', inherits: ['send-with-cookies', 'allow-cors', 'xsrf']}).then(...)
+```
+
 ### Want more?
 
 Please dive deep into our [API DOC](https://github.com/hungluu2106/redpanda/blob/master/APIDOC.md)
@@ -226,8 +243,14 @@ I am **RedPanda**, at your services.
 [builds-url]: https://travis-ci.org/hungluu2106/redpanda
 [builds]: https://travis-ci.org/hungluu2106/redpanda.svg?branch=master
 
-[licenses-url]: https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhungluu2106%2Fwebpack?ref=badge_shield
-[licenses]: https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhungluu2106%2Fwebpack.svg?type=shield
+[licenses-url]: https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhungluu2106%2Fredpanda?ref=badge_shield
+[licenses]: https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhungluu2106%2Fredpanda.svg?type=shield
 
-[cover]: https://img.shields.io/coveralls/webpack/webpack.svg
-[cover-url]: https://coveralls.io/r/webpack/webpack/
+[cover]: https://img.shields.io/coveralls/hungluu2106/redpanda.svg
+[cover-url]: https://coveralls.io/r/hungluu2106/redpanda/
+
+[saucelabs-build]: https://saucelabs.com/buildstatus/redpanda
+[saucelabs-build-url]: https://saucelabs.com/u/redpanda
+
+[saucelabs-matrix]: https://saucelabs.com/browser-matrix/redpanda.svg
+[saucelabs-matrix-url]: https://saucelabs.com/u/redpanda

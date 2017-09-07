@@ -1,7 +1,7 @@
-const kindOf = require('kind-of')
 import RedPanda from '../src/RedPanda'
 import RequestSequence from '../src/RequestSequence'
 import PromiseCollection from '../src/PromiseCollection'
+const kindOf = require('kind-of')
 
 describe('(Private) RequestSequence', () => {
   let sequence, net
