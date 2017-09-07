@@ -37,7 +37,7 @@ hasFeature('react', function () {
 // ------------------------------------
 // We use a Webpack global here as it is replaced with a string during compile.
 // Using a regular JS variable is not statically analyzable so webpack will throw warnings.
-const testsContext = require.context('../', true, /dist\.promises\.spec\.js$/)
+const testsContext = require.context('./', true, /dist\.promises\.spec\.js$/)
 
 // When a test file changes, only rerun that spec file. If something outside of a
 // test file changed, rerun all tests.
