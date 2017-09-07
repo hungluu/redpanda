@@ -35,7 +35,7 @@ For older browser like IE11 which doesn't supports the Promise API natively, don
 
 ## Simple requests
 
-1. Calling API and handling response is so simple
+#### 1. Calling API and handling response is so simple
 ```javascript
 net = new RedPanda()
 net.send({url: '...'})
@@ -48,7 +48,7 @@ RedPanda.send({url: '...'}).then(function (data) {
 })
 ```
 
-2. Post a request and parse JSON responses
+#### 2. Post a request and parse JSON responses
 ```javascript
 // POST return JSON --> JSON.parse object automatically
 net.send({url: '...'})
@@ -56,14 +56,14 @@ net.send({url: '...'})
   .then((json) => console.log(json)) // {id: 3, text: 'Lorem ...'}
 ```
 
-3. Get the responsed HTML
+#### 3. Get the responsed HTML
 ```javascript
 net.send({url: '...'})
   .then((data) => data.html())
   .then((html) => console.log(html)) // <p>Lorem Islum</p>
 ```
 
-4. Calling a bundle of requests parallelly
+#### 4. Calling a bundle of requests parallelly
 ```javascript
 net.send([{url: '...'}, {url: '...'}])
   .then((data) => console.log(data)) // Body {...}
@@ -71,7 +71,7 @@ net.send([{url: '...'}, {url: '...'}])
 RedPanda.send([{url: '...'}, {url: '...'}]).then((data) => console.log(data)) // Body {...}
 ```
 
-5. Calling a bundle of requests sequentially
+#### 5. Calling a bundle of requests sequentially
 ```javascript
 let sequence = net.sequence([{url: '...'}, {url: '...'}])
 net.send(sequence)
@@ -85,12 +85,12 @@ RedPanda.send(sequence).then((data) => console.log(data))
 
 This library is built on top of [Github's Fetch polyfill](https://github.com/github/fetch) for browser and [Node native http fetch](https://github.com/bitinn/node-fetch) for NodeJS environment
 
-1. Post a form
+#### 1. Post a form
 ```javascript
 net.send({url: '...', method: 'POST', body: new FormData(formElement))
 ```
 
-2. Post JSON
+#### 2. Post JSON
 ```javascript
 net.send({
   url: '...',
@@ -103,7 +103,7 @@ net.send({
 })
 ```
 
-3. Post a file
+#### 3. Post a file
 ```javascript
 var data = new FormData()
 data.append('file', inputElement.files[0])
@@ -116,7 +116,7 @@ net.send({
 
 ## Build advanced AJAX application structure
 
-1. Send a parallel stack
+#### 1. Send a parallel stack
 
 ```javascript
 // Create some entry points
@@ -145,7 +145,7 @@ net.send('parallel')
   .then(...) // responses [par-1, par-2, par-3]
 ```
 
-2. Send a sequence (request sent only when previous one has responsed)
+#### 2. Send a sequence (request sent only when previous one has responsed)
 
 ```javascript
 // Create a sequence
@@ -170,7 +170,7 @@ net.send('sequence')
   .then(...) // responses [seq-1, seq-2, seq-3]
 ```
 
-3. Send a parallel stack that contains a sequence
+#### 3. Send a parallel stack that contains a sequence
 ```javascript
 // Create a parallel stack that contains a sequence
 net.set('parallel-sequence', ['parallel', 'sequence'])

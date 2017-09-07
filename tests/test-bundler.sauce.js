@@ -49,3 +49,24 @@ const changedTests = allTests.filter(path => {
 })
 
 ;(changedTests.length ? changedTests : allTests).forEach(testsContext)
+
+
+// const platforms = sauceBrowsers([
+//   { name: 'android', version: ['oldest', 'latest'] },
+//   { name: 'chrome', version: ['oldest', 'latest'] },
+//   { name: 'firefox', version: ['oldest', 'latest'] },
+//   { name: 'internet explorer', version: 'oldest..latest' },
+//   { name: 'iphone', version: ['oldest', 'latest'] },
+//   { name: 'opera', version: 'oldest..latest' },
+//   { name: 'safari', version: 'oldest..latest' },
+//   { name: 'microsoftedge', version: 'oldest..latest' }
+// ]).then((platforms) => {
+//   return platforms.map((platform) => {
+//     return {
+//       browserName: platform.api_name,
+//       version: platform.short_version,
+//       platform: platform.os
+//     };
+//   });
+// });
+// platforms.then(function(data) {console.log(data)});

@@ -4,7 +4,7 @@ const sauceLabsIdentity = process.env.SAUCE_USERNAME
   ? {username: process.env.SAUCE_USERNAME, accessKey: process.env.SAUCE_ACCESS_KEY}
   : require('./saucelabs.identity')
 
-const TEST_BUNDLER = './tests/saucelabs/test-bundler.sauce.js'
+const TEST_BUNDLER = './tests/test-bundler.sauce.js'
 
 const browsers = [
   { base: 'SauceLabs', browserName: 'android', version: '4.4', platform: 'Linux' },
