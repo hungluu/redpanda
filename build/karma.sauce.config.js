@@ -117,7 +117,8 @@ const karmaConfig = {
   },
   concurrency: 5,
   // Increase timeout in case connection in CI is slow
-  captureTimeout: 120000,
+  // Increase timeout for iPhone 8.1
+  captureTimeout: 240000,
   // web server port
   //  port: 11001,
 }
