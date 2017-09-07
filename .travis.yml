@@ -16,9 +16,10 @@ matrix:
     - SCRIPT=test-browsers
 script:
 - if [ "${SCRIPT}" = "test" ]; then npm run ${SCRIPT}; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "true" -a "${SCRIPT}" = "test-browsers" ]; then npm run ${SCRIPT}; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" -a "${SCRIPT}" = "test-browsers" ]; then echo 'Only pull requests get browsers testing.'; fi
+- if [ "$TRAVIS_PULL_REQUEST" = "true" -a "${SCRIPT}" = "test-browsers" ]; then npm
+  run ${SCRIPT}; fi
+- if [ "$TRAVIS_PULL_REQUEST" = "false" -a "${SCRIPT}" = "test-browsers" ]; then echo
+  'Only pull requests get browsers testing.'; fi
 env:
   global:
-  - secure: KpA4F+wUWyas5Ymd24jGjxpgispDM2McTwFnGZjylCgNK2aJYSo3RkG7bKKp2p7dEUMqWBhtrgibqvgNUicqpL9wHZ0fCyqeLdYZahRhYBgSqaBFres4IYzHtemYIq51YIBnH3LKvXD2jAEB3OXN3U1fLOr8L7fgYuRaLNB/W3WXgqZEIXUqtI7BBx9rGxvKvSx8iV5kpsf3V1lShCzrHEDvtgYAx4YLsFwwZ9vEO/lmkU8CK90uqJUJwjKULtk8UCoj1EytT8BmhR0b3QqX6oZsUB1FwtdNuL9aWoNzgoZW0CsIvBGuTeevxfZmtGsLKvOQ+TiBOjXvidHVFhNwYKKzoMCo4YkIn6ufQkPe4av3xZO5GoYllY9+dbjJYn9eoUg16lztr6d8+Dwcidaqdq8YfH308ZKUM7sPDHGpgzEkdP+sbAHPWQCpJQh8xmrbrRsUJs8jjWvid9Ct9DiuNJ+s/d+aTlT0gUx1biqvdqQcnuuLSWjf+VXmqOp0WGOaFCjsXRcNnShBJKc5mLqfVmq+2tpeyJS0U5IJlwd/wXv2pdFX82JhxZNWRXRcdshYyC/zWjN2X1m+fRi2xICxwmMhCA4hroPiun7pVenlwbQaFa+736TvW/f8kszrVIMOYap1HDcleZpdax/Cg7Ps6Bbp/MlCJzbxPRlPcjF7r3Q=
-  - secure: orB+tC3DfXEOYAIf0Z+TPZGdMOozwv/b1K/9CtxzkG/1+SqyiF7EgYrvnEBYKTeu1Pgqkx/X3Pmc05Rw9eDXa0zg3iuRFM10vZpy4IaK1dLUYZV/17mKqlTyLesbD8sbx4ol+mQYyAJ2rIS121oOJ94zp1wi+J5r4/esdg1m+q4a78d9f4WasyGx9uWYL9P04+O3qZwgnK7zYMvjAtc2RfmNw7Xw1+AvmVioKB4uJX54+LHH4CaHNlhTvyvTNcs9fj39bu1ieTOt5YiN3KCyYU+UJHw5jhpQzpdspXcdUtOZ4FDPRqjVVBeBl8FxfKz9Y2TT88KoHFH6nEYYADAKWxXYYRikZdFheZNZWmx+PADNIukwweN5BeoQwe3+4tQv+c3VDcdBOhtRLa9uetaCBQAJSoN8+R4LSFxG9epUR1KfvNVzHdsvIALuymzDaDUjIlhJaIppDtDZ/It6Ob+1u75dgQO22RM9+2n49ViboYMyaBFr/TrKoWDZ5SWz9cINM/esznjiQzppXDU+ycjE7bqK1IulErJTAdr6tUcgQfA0PFRLr3ieb99ZT2x4PQWaRKswqHCiypq47fMM73JqT1K8kcr0v9NHCsSDiOB7/mLFvzcuup3v0pn/ivBhKiQ4gOnEDTFj2iyB8seBacdpyjw9sjAMlDjjHbQusQAXyb0=
+    secure: sWF780ipCKXh3b5/h1V7GG9FvNM6h9iUj8J29QMeOcCKPWNT5tyaMOooQxM9oo263meH91go6p5k/rBL+otVoAKZyD/TThbBiKUnKrhra8hoBpqrL9WBx5IQG581vEKlpUiYxyusnhl0+QQHMoKphHqdWP30qD2H+mZV0e+NSmGb/J4VeII32hKuxjUQiKShRd8YN2gmu06Qn9AMDzF93dY+Bl+L+oa+14SZxtz7Q4qd5asHx+NKiDu4AgGBRUpc2kOoZnhtgEk8khSMqc5sM1ZsXHdL6olajemcgkW6O1ICezg5zxLS9fI9Gk5Hn4n/Agpel5lAWyO//avw+OSfLC4ZOWAK7Fu7GI9LUTAC9iB6xztq5u0O2Vkqw4Xit78uEMN8E9p6nLcN6BYeVwPcd1x5SDOJvlsLAofJ0Hdq43EKZ7Um//Fd+BAmufmo+PEQggq+fxgaVI4oQwtex+a3VNQyHeCBF8sT20tPvvwgR24+AZ//2oCGW1CPOXS4aCBKHhVQHNhGwG/gDCoEuFnhZd+DTCqCFdVWWRU6zcDBz6UjriisZ4jy9UicmhfEdbJYymlMN8zk8mnhS9fNjt6IPqUWGhEjQ8zCdadePdpitkKtqQ31tjfEk7PPH1RHgKAZHQewDBd/B1sACF59mJOrclwxxJQdX4y4ThWeMj+AE8U=
