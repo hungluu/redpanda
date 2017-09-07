@@ -1,11 +1,11 @@
-import '../normalize.js'
+import './normalize.js'
 import chai from 'chai'
 import sinon from 'sinon'
 import dirtyChai from 'dirty-chai'
 import chaiAsPromised from 'chai-as-promised'
 import sinonChai from 'sinon-chai'
 
-const project = require('../../project.config')
+const project = require('../project.config')
 const hasFeature = (name, callback) => {
   let featureEnabled = typeof project.features[name] !== 'undefined' && project.features[name]
   if (featureEnabled && callback) {
