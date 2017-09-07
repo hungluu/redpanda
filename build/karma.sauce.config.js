@@ -1,6 +1,6 @@
 const argv = require('yargs').argv
 const webpackConfig = require('./webpack.config')
-const sauceLabsIdentity = require('../tests/saucelabs/saucelabs.identity')
+// const sauceLabsIdentity = require('../tests/saucelabs/saucelabs.identity')
 
 const TEST_BUNDLER = './tests/saucelabs/test-bundler.sauce.js'
 
@@ -63,8 +63,8 @@ const karmaConfig = {
   sauceLabs: {
     testName: 'Test RedPanda on Saucelabs',
     recordScreenshots: false,
-    username: sauceLabsIdentity.username,
-    accessKey: sauceLabsIdentity.accessKey,
+    username: process.env.SAUCE_USERNAME, // sauceLabsIdentity.username,
+    accessKey: process.env.SAUCE_ACCESS_KEY, //sauceLabsIdentity.accessKey,
     connectOptions: {
       logfile: 'sauce_connect.log',
       'no-ssl-bump-domains': 'all', // ignore android 4 emulator SSL error
