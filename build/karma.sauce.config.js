@@ -1,11 +1,12 @@
 const argv = require('yargs').argv
 const webpackConfig = require('./webpack.config')
+const sauceLabsIdentity = require('../tests/saucelabs/saucelabs.identity')
 
-const TEST_BUNDLER = './tests/test-bundler.sauce.js'
+const TEST_BUNDLER = './tests/saucelabs/test-bundler.sauce.js'
 
 const browsers = [
-  { base: 'SauceLabs', browserName: 'android', version: '4.4', platform: 'Linux' },
-  { base: 'SauceLabs', browserName: 'android', version: '6.0', platform: 'Linux' },
+  // { base: 'SauceLabs', browserName: 'android', version: '4.4', platform: 'Linux' },
+  // { base: 'SauceLabs', browserName: 'android', version: '6.0', platform: 'Linux' },
   { base: 'SauceLabs', browserName: 'chrome',
     version: '26',
     platform: 'Windows 2008' },
@@ -14,15 +15,15 @@ const browsers = [
     platform: 'Windows 2008' },
   { base: 'SauceLabs', browserName: 'firefox', version: '4', platform: 'Windows 10' },
   { base: 'SauceLabs', browserName: 'firefox', version: '55', platform: 'Mac 10.9' },
-  { base: 'SauceLabs', browserName: 'internet explorer',
-    version: '6',
-    platform: 'Windows 2003' },
-  { base: 'SauceLabs', browserName: 'internet explorer',
-    version: '7',
-    platform: 'Windows 2003' },
-  { base: 'SauceLabs', browserName: 'internet explorer',
-    version: '8',
-    platform: 'Windows 2008' },
+  // { base: 'SauceLabs', browserName: 'internet explorer',
+  //   version: '6',
+  //   platform: 'Windows 2003' },
+  // { base: 'SauceLabs', browserName: 'internet explorer',
+  //   version: '7',
+  //   platform: 'Windows 2003' },
+  // { base: 'SauceLabs', browserName: 'internet explorer',
+  //   version: '8',
+  //   platform: 'Windows 2008' },
   { base: 'SauceLabs', browserName: 'internet explorer',
     version: '9',
     platform: 'Windows 2008' },
@@ -60,8 +61,15 @@ browsers.forEach((item) => {
 
 const karmaConfig = {
   sauceLabs: {
-    username: 'redpanda',
-    accessKey: '==========='
+    testName: 'Test RedPanda on Saucelabs',
+    recordScreenshots: false,
+    username: sauceLabsIdentity.username,
+    accessKey: sauceLabsIdentity.accessKey,
+    connectOptions: {
+      logfile: 'sauce_connect.log',
+      'no-ssl-bump-domains': 'all', // ignore android 4 emulator SSL error
+    },
+    public: 'public'
   },
   basePath: '../',
   browsers: Object.keys(karmaBrowsers),
@@ -105,7 +113,9 @@ const karmaConfig = {
     stats: 'errors-only',
     noInfo: true,
   },
-  concurrency: 1
+  concurrency: 5,
+  // Increase timeout in case connection in CI is slow
+  // captureTimeout: 120000,
   // web server port
   //  port: 11001,
 }
