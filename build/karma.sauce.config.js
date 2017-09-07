@@ -1,12 +1,14 @@
 const argv = require('yargs').argv
 const webpackConfig = require('./webpack.config')
-// const sauceLabsIdentity = require('../tests/saucelabs/saucelabs.identity')
+const sauceLabsIdentity = process.env.SAUCE_USERNAME
+  ? {username: process.env.SAUCE_USERNAME, accessKey: process.env.SAUCE_ACCESS_KEY}
+  : require('./saucelabs.identity')
 
 const TEST_BUNDLER = './tests/saucelabs/test-bundler.sauce.js'
 
 const browsers = [
-  // { base: 'SauceLabs', browserName: 'android', version: '4.4', platform: 'Linux' },
-  // { base: 'SauceLabs', browserName: 'android', version: '6.0', platform: 'Linux' },
+  { base: 'SauceLabs', browserName: 'android', version: '4.4', platform: 'Linux' },
+  { base: 'SauceLabs', browserName: 'android', version: '6.0', platform: 'Linux' },
   { base: 'SauceLabs', browserName: 'chrome',
     version: '26',
     platform: 'Windows 2008' },
@@ -63,8 +65,8 @@ const karmaConfig = {
   sauceLabs: {
     testName: 'Test RedPanda on Saucelabs',
     recordScreenshots: false,
-    username: process.env.SAUCE_USERNAME, // sauceLabsIdentity.username,
-    accessKey: process.env.SAUCE_ACCESS_KEY, //sauceLabsIdentity.accessKey,
+    username: sauceLabsIdentity.username,
+    accessKey: sauceLabsIdentity.accessKey,
     connectOptions: {
       logfile: 'sauce_connect.log',
       'no-ssl-bump-domains': 'all', // ignore android 4 emulator SSL error
@@ -115,7 +117,7 @@ const karmaConfig = {
   },
   concurrency: 5,
   // Increase timeout in case connection in CI is slow
-  // captureTimeout: 120000,
+  captureTimeout: 120000,
   // web server port
   //  port: 11001,
 }
