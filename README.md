@@ -3,6 +3,7 @@
 RedPanda - A lightweight Javascript library for organizing your API calls, with `fetch` and Promises
 
 [![npm][npm]][npm-url] [![deps][deps]][deps-url] [![builds][builds]][builds-url]
+
 [![saucelabs-matrix][saucelabs-matrix]][saucelabs-matrix-url]
 
 ### Features
@@ -249,7 +250,7 @@ I am **RedPanda**, at your services.
 [cover]: https://img.shields.io/coveralls/hungluu/redpanda.svg
 [cover-url]: https://coveralls.io/r/hungluu/redpanda/
 
-[saucelabs-build]: https://saucelabs.com/buildstatus/redpanda?saucy
+[saucelabs-build]: https://saucelabs.com/buildstatus/redpanda
 [saucelabs-build-url]: https://saucelabs.com/beta/builds/0b046336cca0438b9a45b883577bd5ca
 
 [saucelabs-matrix]: https://saucelabs.com/browser-matrix/redpanda.svg
