@@ -215,7 +215,7 @@ net.send({url: '...', inherits: ['send-with-cookies', 'allow-cors', 'xsrf']}).th
 
 ### Want more?
 
-Please dive deep into our [API DOC](https://github.com/hungluu2106/redpanda/blob/master/APIDOC.md)
+Please dive deep into our [API DOC](https://github.com/hungluu/redpanda/blob/master/APIDOC.md)
 
 
 ### Message from author
@@ -234,23 +234,23 @@ I am **RedPanda**, at your services.
 [node]: https://img.shields.io/node/v/redpanda.svg
 [node-url]: https://nodejs.org
 
-[deps]: https://img.shields.io/david/hungluu2106/redpanda.svg
-[deps-url]: https://david-dm.org/hungluu2106/redpanda
+[deps]: https://img.shields.io/david/hungluu/redpanda.svg
+[deps-url]: https://david-dm.org/hungluu/redpanda
 
-[tests]: https://img.shields.io/travis/hungluu2106/webpack/master.svg
-[tests-url]: https://travis-ci.org/hungluu2106/webpack
+[tests-url]: https://travis-ci.org/hungluu/redpanda
+[tests]: https://img.shields.io/travis/hungluu/redpanda/master.svg
 
-[builds-url]: https://travis-ci.org/hungluu2106/redpanda
-[builds]: https://travis-ci.org/hungluu2106/redpanda.svg?branch=master
+[builds-url]: https://travis-ci.org/hungluu/redpanda
+[builds]: https://travis-ci.org/hungluu/redpanda.svg?branch=master
 
-[licenses-url]: https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhungluu2106%2Fredpanda?ref=badge_shield
-[licenses]: https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhungluu2106%2Fredpanda.svg?type=shield
+[licenses-url]: https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhungluu%2Fredpanda?ref=badge_shield
+[licenses]: https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fhungluu%2Fredpanda.svg?type=shield
 
-[cover]: https://img.shields.io/coveralls/hungluu2106/redpanda.svg
-[cover-url]: https://coveralls.io/r/hungluu2106/redpanda/
+[cover]: https://img.shields.io/coveralls/hungluu/redpanda.svg
+[cover-url]: https://coveralls.io/r/hungluu/redpanda/
 
-[saucelabs-build]: https://saucelabs.com/buildstatus/redpanda
-[saucelabs-build-url]: https://saucelabs.com/u/redpanda
+[saucelabs-build]: https://saucelabs.com/buildstatus/redpanda?saucy
+[saucelabs-build-url]: https://saucelabs.com/beta/builds/0b046336cca0438b9a45b883577bd5ca
 
 [saucelabs-matrix]: https://saucelabs.com/browser-matrix/redpanda.svg
-[saucelabs-matrix-url]: https://saucelabs.com/u/redpanda
+[saucelabs-matrix-url]: https://saucelabs.com/beta/builds/0b046336cca0438b9a45b883577bd5ca
